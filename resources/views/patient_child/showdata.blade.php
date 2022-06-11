@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid mt--6">
+<div class="container-fluid mt-5">
     <div class="row">
         <div class="col">
             <div class="card">
@@ -10,9 +10,9 @@
 
                 <!-- Light table -->
                 <div class="table-responsive">
-                    <div class="card-header border-0">
+                    <!-- <div class="card-header border-0">
                         <h3 class="mb-0">Light table</h3>
-                    </div>
+                    </div> -->
                     <table class="table align-items-center table-flush">
                         <div class="card-header border-0">
                             <div class="text-left">
@@ -22,10 +22,6 @@
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addpatientchild">+ เพิ่ม</button>
                             </div>
                         </div>
-
-                        <!-- <div class="text-right">
-                            <input id="addrow" type="button" class="btn btn-outline-primary btn-sm" value="เพิ่มข้อมูลสินค้า">
-                        </div> -->
 
                         <thead class="thead-light">
                             <tr>
