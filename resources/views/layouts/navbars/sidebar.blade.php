@@ -125,7 +125,7 @@
                     <div class="collapse" id="navbar-drug">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('profile.edit') }}">
+                                <a class="nav-link" href="{{ route('typedrugs') }}">
                                     {{ __('ประเภทยา') }}
                                 </a>
                             </li>

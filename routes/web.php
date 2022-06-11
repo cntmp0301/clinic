@@ -52,5 +52,11 @@ Route::post('/patientchild/updatepatientchild', [App\Http\Controllers\patientlis
 Route::get('/userdata', [App\Http\Controllers\UserController::class, 'userdata'])->name('userdata');
 Route::post('/userdata/adduser', [App\Http\Controllers\UserController::class, 'adduser'])->name('adduser');
 
+//Type
+Route::get('/typedrugs', [App\Http\Controllers\TypedrugsController::class, 'typedrugs'])->name('typedrugs');
+Route::post('/typedrugs/addtype', [App\Http\Controllers\TypedrugsController::class, 'addtype'])->name('addtype');
+Route::get('/typedrugs/editType/{id}', [App\Http\Controllers\TypedrugsController::class, 'editType'])->name('editType');
+Route::post('/updateType', [App\Http\Controllers\TypedrugsController::class, 'updateType'])->name('updateType');
+
 
 
