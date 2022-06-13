@@ -19,7 +19,8 @@ class patient_list extends Model
         'drug_allergy',
         'users_image',
         'line_id',
-        'type'
+        'type',
+        'status'
     ];
 
     public function sexname()

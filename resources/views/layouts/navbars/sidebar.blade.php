@@ -93,6 +93,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('sendpatient') }}">
+                        <i class="ni ni-circle-08"></i> {{ __('ตารางสำหรับส่งรายชื่อคนไข้(กระดูก)') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('patientcheckbone') }}">
+                        <i class="ni ni-circle-08"></i> {{ __('รายชื่อคนไข้รอตรวจ(กระดูก)') }}
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link active" href="#navbar-patient" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
                         <!-- <i class="fab fa-laravel" style="color: #f4645f;"></i> -->
                         <i class="ni ni-bullet-list-67"></i>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\patient_list;
 use App\Models\sex;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class patientlistController extends Controller
@@ -14,6 +15,26 @@ class patientlistController extends Controller
         $data['sex'] = sex::get();
         return view('patient_bone.showdata')->with('data', $data);
     }
+    public function patientcheckbone()
+    {
+        $data['patientlist'] = patient_list::where('type',"กระดูก")->where('status',"1")->whereDate('updated_at', Carbon::today())->get();
+        $data['sex'] = sex::get();
+        return view('patientcheckbone.showdata')->with('data', $data);
+    }
+    public function sendpatient()
+    {
+        $data['patientlist'] = patient_list::where('type',"กระดูก")->where('status',"0")->get();
+        $data['sex'] = sex::get();
+        return view('sendpatient.showdata')->with('data', $data);
+    }
+    public function statusupdate($id)
+    {
+        patient_list::where('id', $id)->update([
+            'status' => 1
+        ]);
+        return redirect()->route('sendpatient')->with('success', "แก้ไขข้อมูลสำเร็จ");
+    }
+
 
     public function addpatientbone(Request $request)
     {

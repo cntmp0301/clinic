@@ -58,5 +58,12 @@ Route::post('/typedrugs/addtype', [App\Http\Controllers\TypedrugsController::cla
 Route::get('/typedrugs/editType/{id}', [App\Http\Controllers\TypedrugsController::class, 'editType'])->name('editType');
 Route::post('/updateType', [App\Http\Controllers\TypedrugsController::class, 'updateType'])->name('updateType');
 
+//Send patient
+Route::get('/sendpatient', [App\Http\Controllers\patientlistController::class, 'sendpatient'])->name('sendpatient');
+Route::get('/sendpatient/statusupdate/{id}', [App\Http\Controllers\patientlistController::class, 'statusupdate'])->name('statusupdate');
+
+//List patient check
+Route::get('/patientcheckbone', [App\Http\Controllers\patientlistController::class, 'patientcheckbone'])->name('patientcheckbone');
+
 
 
