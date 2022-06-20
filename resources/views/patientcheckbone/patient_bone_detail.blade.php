@@ -3,6 +3,7 @@
 @section('content')
 
 <div class="container-fluid mt-5">
+@include('modal/drugModal')
     <div class="card">
         <div class="card-header" id="headingOne">
             <h5 class="mb-0">
@@ -208,6 +209,7 @@
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -216,7 +218,6 @@
 
         //เพิ่มแถว
         $("#addDrug").on("click", function() {
-            alert(1);
             var counter = $("#rowcounter").val();
             var newRow = $("<tr class=addedrow id=" + counter + ">");
             var cols = "";

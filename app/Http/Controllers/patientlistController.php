@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\drugs_list;
 use App\Models\patient_list;
 use App\Models\sexes;
 use Carbon\Carbon;
@@ -26,6 +27,7 @@ class patientlistController extends Controller
     public function patientBoneDetail($id)
     {
         $data['patient_list'] = patient_list::where('patient_id', $id)->get();
+        $data['druglist'] = drugs_list::get();
         $data['sex'] = sexes::get();
         return view('patientcheckbone.patient_bone_detail')->with('data', $data);
     }
