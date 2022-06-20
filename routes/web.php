@@ -36,12 +36,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 });
 
-//patient
+//patient bone
 Route::get('/patientbone', [App\Http\Controllers\patientlistController::class, 'patientbone'])->name('patientbone');
 Route::post('/patientbone/addpatientbone', [App\Http\Controllers\patientlistController::class, 'addpatientbone'])->name('addpatientbone');
 Route::get('/patientbone/editpatientbone/{id}', [App\Http\Controllers\patientlistController::class, 'editpatientbone'])->name('editpatientbone');
 Route::post('/patientbone/updatepatientbone', [App\Http\Controllers\patientlistController::class, 'updatepatientbone'])->name('updatepatientbone');
 
+//patient child
 Route::get('/patientchild', [App\Http\Controllers\patientlistController::class, 'patientchild'])->name('patientchild');
 Route::post('/patientchild/addpatientchild', [App\Http\Controllers\patientlistController::class, 'addpatientchild'])->name('addpatientchild');
 Route::get('/patientchild/addpatientchild/{id}', [App\Http\Controllers\patientlistController::class, 'editpatientchild'])->name('editpatientchild');
@@ -70,5 +71,9 @@ Route::get('/sendpatient/statusupdate/{id}', [App\Http\Controllers\patientlistCo
 Route::get('/patientcheckbone', [App\Http\Controllers\patientlistController::class, 'patientcheckbone'])->name('patientcheckbone');
 Route::get('/patientcheckbone/patientBoneDetail/{id}', [App\Http\Controllers\patientlistController::class, 'patientBoneDetail'])->name('patientBoneDetail');
 
+//Drug
+Route::get('/drugslist', [App\Http\Controllers\DrugListController::class, 'drugslist'])->name('drugslist');
+Route::get('/drugs-low', [App\Http\Controllers\DrugListController::class, 'drugslow'])->name('drugs-low');
+Route::post('/drugslist/addDrugs', [App\Http\Controllers\DrugListController::class, 'addDrugs'])->name('addDrugs');
 
 

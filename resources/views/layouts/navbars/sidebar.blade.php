@@ -161,12 +161,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.index') }}">
+                                <a class="nav-link" href="{{ route('drugslist') }}">
                                     {{ __('แสดงข้อมูลยาทั้งหมด') }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.index') }}">
+                                <a class="nav-link" href="{{ route('drugs-low') }}">
                                     {{ __('สินค้าที่ใกล้หมด') }}
                                 </a>
                             </li>
