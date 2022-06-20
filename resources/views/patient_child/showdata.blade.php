@@ -54,7 +54,7 @@
                                     {{$row -> tel}}
                                 </td>
                                 <td class="text-center">
-                                    {{$row -> contact}}
+                                    {{$row -> address}}
                                 </td>
                                 <td class="text-center">
                                     {{$row -> line_id}}
@@ -62,7 +62,7 @@
                                 <td class="text-right">
                                     <!--<a data-toggle="modal" data-target="#custDetailModal" class="btn btn-info">รายละเอียด</a>-->
                                     <a href="{{ url('/general/customer/editCustomer/'.$row->customer_number) }}" title="รายละเอียด" data-toggle="tooltip" class="btn btn-primary"><i class="fas fa-solid fa-eye"></i></a>
-                                    <a href="{{ url('/patientchild/addpatientchild/'.$row->id) }}" title="แก้ไขข้อมูล" data-toggle="tooltip" class="btn btn-primary"><i class="fas fa-edit fa-sm"></i></a>
+                                    <a href="{{ url('/patientchild/addpatientchild/'.$row->patient_id) }}" title="แก้ไขข้อมูล" data-toggle="tooltip" class="btn btn-primary"><i class="fas fa-edit fa-sm"></i></a>
                                     <!-- <a href="{{ url('/general/customer/softDeleteCustomer/'.$row->customer_number) }}" title="ลบข้อมูล" data-toggle="tooltip" class="btn btn-danger delbtn"><i class="fa fa-trash fa-sm" aria-hidden="true"></i></a> -->
                                 </td>
                             </tr>
@@ -127,13 +127,13 @@
                     </div>
                     <div class="form-group">
                         <label> ที่อยู่ </label>
-                        <input type="text" name="contact" class="form-control" placeholder="">
+                        <input type="text" name="address" class="form-control" placeholder="">
                     </div>
                     <div class="form-group">
                         <label>เพศ</label>
                         <select name="sex" class="form-control">
                             @foreach($data['sex'] as $row)
-                            <option value="{{$row -> id}}">{{$row -> name}}</option>
+                            <option value="{{$row -> id}}">{{$row -> sex_name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -153,7 +153,8 @@
                         <label> LINE ID </label>
                         <input type="text" name="line_id" class="form-control" placeholder="">
                     </div>
-                    <input type="hidden" name="type" value="เด็ก">
+                    <input type="hidden" name="type" value="2">
+                    <input type="hidden" name="status" value="0">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">ออก</button>

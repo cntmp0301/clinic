@@ -13,7 +13,7 @@ class patient_list extends Model
         'name',
         'nickname',
         'tel',
-        'contact',
+        'address',
         'sex',
         'age',
         'drug_allergy',
@@ -25,6 +25,6 @@ class patient_list extends Model
 
     public function sexname()
     {
-        return $this->hasOne(sex::class, 'id', 'sex');
+        return $this->hasOne(sexes::class, 'id', 'sex');
     }
 }

@@ -11,8 +11,7 @@ class orders extends Model
     protected $fillable = [
         'patient_id',
         'order_id',
-        'product_id',
-        'date_order',
-        'amount'
+        'discount',
+        'date_order'
     ];
 }

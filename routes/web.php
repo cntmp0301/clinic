@@ -48,6 +48,10 @@ Route::get('/patientchild/addpatientchild/{id}', [App\Http\Controllers\patientli
 Route::post('/patientchild/updatepatientchild', [App\Http\Controllers\patientlistController::class, 'updatepatientchild'])->name('updatepatientchild');
 
 
+//Admin
+Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'adminHome'])->name('admin.home')->middleware('type');
+
+
 //User
 Route::get('/userdata', [App\Http\Controllers\UserController::class, 'userdata'])->name('userdata');
 Route::post('/userdata/adduser', [App\Http\Controllers\UserController::class, 'adduser'])->name('adduser');

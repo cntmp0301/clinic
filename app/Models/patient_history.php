@@ -11,8 +11,7 @@ class patient_history extends Model
     protected $fillable = [
         'patient_id',
         'order_id',
-        'message',
-        'sum',
+        'patient_symptoms',
         'date_history',
         'next_check'
     ];

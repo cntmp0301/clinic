@@ -9,9 +9,10 @@ class drugs_list extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_drug',
-        'item_name',
+        'drug_id',
+        'drug_name',
         'cost_price',
+        'sell_price',
         'item_qty',
         'description'
     ];

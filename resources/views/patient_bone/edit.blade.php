@@ -29,7 +29,7 @@
                     <div class="form-row">
                         <div class="col-md-1">
                             <label for="patient_id">รหัสคนไข้</label>
-                            <input type="text" class="form-control" id="patient_id" name="patient_id" value="{{$data['patient_list'][0] -> id}}" readonly>
+                            <input type="text" class="form-control" id="patient_id" name="patient_id" value="{{$data['patient_list'][0] -> patient_id}}" readonly>
                         </div>
 
                         <div class="form-group col-md-7">
@@ -44,7 +44,7 @@
                         
                         <div class="form-group col-md-1">
                             <label for="patient_sex">เพศ</label>
-                            <select id="inputSex" name="sex" class="form-control">
+                            <select id="patient_sex" name="patient_sex" class="form-control">
                                 @foreach($data['sex'] as $row)
                                 <option value="{{$row -> id}}" {{($data['patient_list'][0]-> sex==$row -> id) ? 'selected' :''}}>{{$row -> sex_name}}</option>
                                 @endforeach
@@ -64,8 +64,8 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="patient_contact">ที่อยู่</label>
-                            <input type="text" class="form-control" name="patient_contact" value="{{$data['patient_list'][0] -> contact}}">
+                            <label for="patient_address">ที่อยู่</label>
+                            <input type="text" class="form-control" name="patient_address" value="{{$data['patient_list'][0] -> address}}">
                         </div>
 
                         <div class="form-group col-md-2">

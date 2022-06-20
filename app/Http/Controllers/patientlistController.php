@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\patient_list;
-use App\Models\sex;
+use App\Models\sexes;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -11,25 +11,25 @@ class patientlistController extends Controller
 {
     public function patientbone()
     {
-        $data['patientlist'] = patient_list::where('type', "กระดูก")->get();
-        $data['sex'] = sex::get();
+        $data['patientlist'] = patient_list::where('type', "1")->get();
+        $data['sex'] = sexes::get();
         return view('patient_bone.showdata')->with('data', $data);
     }
     public function patientcheckbone()
     {
-        $data['patientlist'] = patient_list::where('type',"กระดูก")->where('status',"1")->whereDate('updated_at', Carbon::today())->get();
-        $data['sex'] = sex::get();
+        $data['patientlist'] = patient_list::where('type',"1")->where('status',"1")->whereDate('updated_at', Carbon::today())->get();
+        $data['sex'] = sexes::get();
         return view('patientcheckbone.showdata')->with('data', $data);
     }
     public function sendpatient()
     {
-        $data['patientlist'] = patient_list::where('type',"กระดูก")->where('status',"0")->get();
-        $data['sex'] = sex::get();
+        $data['patientlist'] = patient_list::where('type',"1")->where('status',"0")->get();
+        $data['sex'] = sexes::get();
         return view('sendpatient.showdata')->with('data', $data);
     }
     public function statusupdate($id)
     {
-        patient_list::where('id', $id)->update([
+        patient_list::where('patient_id', $id)->update([
             'status' => 1
         ]);
         return redirect()->route('sendpatient')->with('success', "แก้ไขข้อมูลสำเร็จ");
@@ -53,13 +53,14 @@ class patientlistController extends Controller
         $patient_list->name = $request->name;
         $patient_list->nickname = $request->nickname;
         $patient_list->tel = $request->tel;
-        $patient_list->contact = $request->contact;
+        $patient_list->address = $request->address;
         $patient_list->sex = $request->sex;
         $patient_list->age = $request->age;
         $patient_list->drug_allergy = $request->drug_allergy;
         // $patient_list->users_image = $fullpathusers_image;
         $patient_list->line_id = $request->line_id;
         $patient_list->type = $request->type;
+        $patient_list->status = $request->status;
 
         $patient_list->save();
 
@@ -69,8 +70,8 @@ class patientlistController extends Controller
 
     public function editpatientbone($id)
     {
-        $data['patient_list'] = patient_list::where('id', $id)->get();
-        $data['sex'] = sex::get();
+        $data['patient_list'] = patient_list::where('patient_id', $id)->get();
+        $data['sex'] = sexes::get();
         return view('patient_bone.edit')->with('data', $data);
     }
 
@@ -78,12 +79,12 @@ class patientlistController extends Controller
     {
         // dd($request);
         $id = $request->patient_id;
-        patient_list::where('id', $id)->update([
+        patient_list::where('patient_id', $id)->update([
             'name' => $request->patient_name,
             'nickname' => $request->patient_nickname,
             'tel' => $request->patient_tel,
-            'contact' => $request->patient_contact,
-            'sex' => $request->sex,
+            'address' => $request->patient_address,
+            'sex' => $request->patient_sex,
             'age' => $request->patient_age,
             'drug_allergy' => $request->patient_drug_allergy,
             'line_id' => $request->patient_line_id
@@ -95,8 +96,8 @@ class patientlistController extends Controller
     //---------------------------------------------------------------------------------------------------------------------
     public function patientchild()
     {
-        $data['patientlist'] = patient_list::where('type', "เด็ก")->get();
-        $data['sex'] = sex::get();
+        $data['patientlist'] = patient_list::where('type', "2")->get();
+        $data['sex'] = sexes::get();
         return view('patient_child.showdata')->with('data', $data);
     }
 
@@ -117,13 +118,14 @@ class patientlistController extends Controller
         $patient_list->name = $request->name;
         $patient_list->nickname = $request->nickname;
         $patient_list->tel = $request->tel;
-        $patient_list->contact = $request->contact;
+        $patient_list->address = $request->address;
         $patient_list->sex = $request->sex;
         $patient_list->age = $request->age;
         $patient_list->drug_allergy = $request->drug_allergy;
         // $patient_list->users_image = $fullpathusers_image;
         $patient_list->line_id = $request->line_id;
         $patient_list->type = $request->type;
+        $patient_list->status = $request->status;
 
         $patient_list->save();
 
@@ -133,19 +135,19 @@ class patientlistController extends Controller
 
     public function editpatientchild($id)
     {
-        $data['patient_list'] = patient_list::where('id', $id)->get();
-        $data['sex'] = sex::get();
+        $data['patient_list'] = patient_list::where('patient_id', $id)->get();
+        $data['sex'] = sexes::get();
         return view('patient_child.edit')->with('data', $data);
     }
 
     public function updatepatientchild(Request $request)
     {
         $id = $request->patient_id;
-        patient_list::where('id', $id)->update([
+        patient_list::where('patient_id', $id)->update([
             'name' => $request->patient_name,
             'nickname' => $request->patient_nickname,
             'tel' => $request->patient_tel,
-            'contact' => $request->patient_contact,
+            'address' => $request->patient_address,
             'sex' => $request->patient_sex,
             'age' => $request->patient_age,
             'drug_allergy' => $request->patient_drug_allergy,
