@@ -68,6 +68,7 @@ Route::get('/sendpatient/statusupdate/{id}', [App\Http\Controllers\patientlistCo
 
 //List patient check
 Route::get('/patientcheckbone', [App\Http\Controllers\patientlistController::class, 'patientcheckbone'])->name('patientcheckbone');
+Route::get('/patientcheckbone/patientBoneDetail/{id}', [App\Http\Controllers\patientlistController::class, 'patientBoneDetail'])->name('patientBoneDetail');
 
 
 

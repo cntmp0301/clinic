@@ -50,14 +50,14 @@
                                     {{$row -> tel}}
                                 </td>
                                 <td class="text-center">
-                                    {{$row -> contact}}
+                                    {{$row -> address}}
                                 </td>
                                 <td class="text-center">
                                     {{$row -> line_id}}
                                 </td>
                                 <td class="text-right">
                                     <!--<a data-toggle="modal" data-target="#custDetailModal" class="btn btn-info">รายละเอียด</a>-->
-                                    <a href="{{url('/sendpatient/statusupdate/'.$row->id)}}" title="รายละเอียด" data-toggle="tooltip" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
+                                    <a href="{{url('/patientcheckbone/patientBoneDetail/'.$row->patient_id)}}" title="รายละเอียด" data-toggle="tooltip" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
                                     <!-- <a href="{{ url('/general/customer/softDeleteCustomer/'.$row->customer_number) }}" title="ลบข้อมูล" data-toggle="tooltip" class="btn btn-danger delbtn"><i class="fa fa-trash fa-sm" aria-hidden="true"></i></a> -->
                                 </td>
                             </tr>

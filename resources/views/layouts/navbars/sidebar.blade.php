@@ -4,28 +4,26 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <?php if(auth()->user()->type == 1)
-        {?>
-        <a class="navbar-brand pt-0" href="{{ route('admin.home') }}">
-            <!-- <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="..."> -->
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-briefcase-medical"></i>
-            </div>
-            <div class="sidebar-brand-text mx-0">คลินิคหมอขิง - หมอณัฐพล</sup></div>
-        </a>
-        <?php    
-        }?>
-        <?php if(auth()->user()->type == 0)
-        {?>
-        <a class="navbar-brand pt-0" href="{{ route('home') }}">
-            <!-- <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="..."> -->
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-briefcase-medical"></i>
-            </div>
-            <div class="sidebar-brand-text mx-0">คลินิคหมอขิง - หมอณัฐพล</sup></div>
-        </a>
-        <?php    
-        }?>
+        <?php if (auth()->user()->type == 1) { ?>
+            <a class="navbar-brand pt-0" href="{{ route('admin.home') }}">
+                <!-- <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="..."> -->
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-briefcase-medical"></i>
+                </div>
+                <div class="sidebar-brand-text mx-0">คลินิคหมอขิง - หมอณัฐพล</sup></div>
+            </a>
+        <?php
+        } ?>
+        <?php if (auth()->user()->type == 0) { ?>
+            <a class="navbar-brand pt-0" href="{{ route('home') }}">
+                <!-- <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="..."> -->
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-briefcase-medical"></i>
+                </div>
+                <div class="sidebar-brand-text mx-0">คลินิคหมอขิง - หมอณัฐพล</sup></div>
+            </a>
+        <?php
+        } ?>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
             <li class="nav-item dropdown">
@@ -101,33 +99,30 @@
                         <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
                     </a>
                 </li>
-                <?php if(auth()->user()->type == 1)
-                {?>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('userdata') }}">
-                        <i class="ni ni-circle-08"></i> {{ __('ผู้ใช้ในระบบ') }}
-                    </a>
-                </li>
+                <?php if (auth()->user()->type == 1) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('userdata') }}">
+                            <i class="ni ni-circle-08"></i> {{ __('ผู้ใช้ในระบบ') }}
+                        </a>
+                    </li>
                 <?php
-                }?>
-                <?php if(auth()->user()->type == 0)
-                {?>
+                } ?>
+                <?php if (auth()->user()->type == 0) { ?>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('sendpatient') }}">
                             <i class="ni ni-circle-08"></i> {{ __('ตารางสำหรับส่งรายชื่อคนไข้(กระดูก)') }}
                         </a>
                     </li>
                 <?php
-                }?>
-                <?php if(auth()->user()->type == 1)
-                {?>
+                } ?>
+                <?php if (auth()->user()->type == 1) { ?>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('patientcheckbone') }}">
                             <i class="ni ni-circle-08"></i> {{ __('รายชื่อคนไข้รอตรวจ(กระดูก)') }}
                         </a>
                     </li>
                 <?php
-                }?>
+                } ?>
                 <li class="nav-item">
                     <a class="nav-link active" href="#navbar-patient" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
                         <!-- <i class="fab fa-laravel" style="color: #f4645f;"></i> -->
@@ -180,5 +175,9 @@
                 </li>
             </ul>
         </div>
+        <a href="{{ route('logout') }}" class="btn btn-danger" onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">
+            <span>{{ __('Logout') }}</span>
+        </a>
     </div>
 </nav>

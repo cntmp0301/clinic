@@ -15,18 +15,28 @@ class patientlistController extends Controller
         $data['sex'] = sexes::get();
         return view('patient_bone.showdata')->with('data', $data);
     }
+
     public function patientcheckbone()
     {
         $data['patientlist'] = patient_list::where('type',"1")->where('status',"1")->whereDate('updated_at', Carbon::today())->get();
         $data['sex'] = sexes::get();
         return view('patientcheckbone.showdata')->with('data', $data);
     }
+
+    public function patientBoneDetail($id)
+    {
+        $data['patient_list'] = patient_list::where('patient_id', $id)->get();
+        $data['sex'] = sexes::get();
+        return view('patientcheckbone.patient_bone_detail')->with('data', $data);
+    }
+
     public function sendpatient()
     {
         $data['patientlist'] = patient_list::where('type',"1")->where('status',"0")->get();
         $data['sex'] = sexes::get();
         return view('sendpatient.showdata')->with('data', $data);
     }
+     
     public function statusupdate($id)
     {
         patient_list::where('patient_id', $id)->update([
@@ -34,7 +44,6 @@ class patientlistController extends Controller
         ]);
         return redirect()->route('sendpatient')->with('success', "แก้ไขข้อมูลสำเร็จ");
     }
-
 
     public function addpatientbone(Request $request)
     {
@@ -91,6 +100,8 @@ class patientlistController extends Controller
         ]);
         return redirect()->route('patientbone')->with('success', "แก้ไขข้อมูลสำเร็จ");
     }
+
+
 
 
     //---------------------------------------------------------------------------------------------------------------------

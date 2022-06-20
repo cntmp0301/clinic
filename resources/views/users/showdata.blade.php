@@ -21,11 +21,6 @@
               <div class="text-right">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addadminprofile">+ เพิ่ม</button>
               </div>
-              <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
-                        <i class="ni ni-user-run"></i>
-                        <button><span>{{ __('Logout') }}</span></button>
-                    </a>
             </div>
             <thead class="thead-light">
               <tr>
