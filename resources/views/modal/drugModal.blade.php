@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table id="customer" class="table table-bordered table-sm align-items-center" cellspacing="0" width="100%">
+                    <table id="drug" class="table table-bordered table-sm align-items-center" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th scope="col" class="sort text-center">รหัสยา</th>
@@ -31,7 +31,7 @@
                                 <td class="text-center">{{$row -> item_qty}}</td>
                                 <td class="text-center">{{$row -> description}}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-outline-info btnSelectCust">เลือก</a>
+                                    <a class="btn btn-outline-info btnSelectDrug">เลือก</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -45,3 +45,46 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function() {
+        $('#drug').DataTable();
+
+        $('.btnSelectDrug').on('click', function() {
+            // alert(1);
+            var $rowId = $('#rowId').val()
+            var $row = jQuery(this).closest('tr');
+            var $columns = $row.find('td');
+
+            $columns.addClass('row-highlight');
+            var drugId = "";
+            var drugName = "";
+            var costPrice = "";
+            var sellPrice = "";
+            var count = 0;
+            jQuery.each($columns, function(i, item) {
+                item.innerHTML;
+                if (count == 0) {
+                    drugId = item.innerHTML;
+                }
+                if (count == 1) {
+                    drugName = item.innerHTML;
+                }
+                if (count == 2) {
+                    costPrice = item.innerHTML;
+                }
+                if (count == 3) {
+                    sellPrice = item.innerHTML;
+                }
+                count++;
+            });
+            //ส่งค่ามาแปะที่ฟอร์ม
+            $("#" + $rowId).find('input[name="drug_id[]"]').val(drugId);
+            $("#" + $rowId).find('input[name="drug_name[]"]').val(drugName);
+            $("#" + $rowId).find('input[name="cost_price[]"]').val(costPrice);
+            $("#" + $rowId).find('input[name="sell_price[]"]').val(sellPrice);
+            $('#drugSearchModal').modal('hide');
+        });
+    });
+</script>
