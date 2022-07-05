@@ -13,7 +13,7 @@
                     <!-- <div class="card-header border-0">
                         <h3 class="mb-0">Light table</h3>
                     </div> -->
-                    <table class="table align-items-center table-flush">
+                    <table class="table align-items-center table-flush dtab">
                         <div class="card-header border-0">
                             <div class="text-left">
                                 <h3 class="mb-0">ตารางส่งรายชื่อคนไข้(กระดูก)&nbsp;</h3>
@@ -57,7 +57,7 @@
                                 </td>
                                 <td class="text-right">
                                     <!--<a data-toggle="modal" data-target="#custDetailModal" class="btn btn-info">รายละเอียด</a>-->
-                                    <a href="{{url('/sendpatient/statusupdate/'.$row->patient_id)}}" title="ส่งชื่อคนไข้" data-toggle="tooltip" class="btn btn-primary"><i class="fa-solid fa-check"></i></a>
+                                    <a href="{{url('/sendpatient/setstatusone/'.$row->patient_id)}}" title="ส่งชื่อคนไข้" data-toggle="tooltip" class="btn btn-primary"><i class="fa-solid fa-check"></i></a>
                                     <!-- <a href="{{ url('/general/customer/softDeleteCustomer/'.$row->customer_number) }}" title="ลบข้อมูล" data-toggle="tooltip" class="btn btn-danger delbtn"><i class="fa fa-trash fa-sm" aria-hidden="true"></i></a> -->
                                 </td>
                             </tr>
@@ -66,7 +66,7 @@
                     </table>
                 </div>
                 <!-- Card footer -->
-                <div class="card-footer py-4">
+                <!-- <div class="card-footer py-4">
                     <nav aria-label="...">
                         <ul class="pagination justify-content-end mb-0">
                             <li class="page-item disabled">
@@ -90,7 +90,7 @@
                             </li>
                         </ul>
                     </nav>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -187,6 +187,27 @@
         }
         reader.readAsDataURL(this.files[0]);
     });
+
+    $(".dtab").DataTable({
+    columnDefs: [
+        {
+            defaultContent: "-",
+            targets: "_all",
+        },
+    ],
+    language: {
+        paginate: {
+            previous: "<",
+            next: ">",
+        },
+    },
+    lengthMenu: [10, 20, 50, 100],
+    oLanguage: {
+        sSearch: "ค้นหา:",
+        sLengthMenu: " แสดง _MENU_ รายการ/หน้า",
+        sInfo: "รายการที่ _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+    },
+});
 
     
 </script>

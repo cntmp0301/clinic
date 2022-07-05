@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\drugs_list;
 use App\Models\patient_list;
+use App\Models\patient_log;
 use App\Models\sexes;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class patientlistController extends Controller
 
     public function patientcheckbone()
     {
-        $data['patientlist'] = patient_list::where('type',"1")->where('status',"1")->whereDate('updated_at', Carbon::today())->get();
+        $data['patientlog'] = patient_log::where('type',"1")->where('status',"1")->get();
         $data['sex'] = sexes::get();
         return view('patientcheckbone.showdata')->with('data', $data);
     }
@@ -34,16 +35,21 @@ class patientlistController extends Controller
 
     public function sendpatient()
     {
-        $data['patientlist'] = patient_list::where('type',"1")->where('status',"0")->get();
+        $data['patientlist'] = patient_list::where('type',"1")->get();
         $data['sex'] = sexes::get();
         return view('sendpatient.showdata')->with('data', $data);
     }
      
-    public function statusupdate($id)
+    public function setstatusone($id)
     {
-        patient_list::where('patient_id', $id)->update([
-            'status' => 1
-        ]);
+        $patient_log = new patient_log();
+        $patient_log->patient_id = $id;
+        $patient_log->type = 1;
+        $patient_log->status = 1;
+        $patient_log->save();
+        // patient_log::insert([
+        //     'patient_id' => $id
+        // ]);
         return redirect()->route('sendpatient')->with('success', "แก้ไขข้อมูลสำเร็จ");
     }
 
@@ -71,7 +77,6 @@ class patientlistController extends Controller
         // $patient_list->users_image = $fullpathusers_image;
         $patient_list->line_id = $request->line_id;
         $patient_list->type = $request->type;
-        $patient_list->status = $request->status;
 
         $patient_list->save();
 
@@ -138,7 +143,6 @@ class patientlistController extends Controller
         // $patient_list->users_image = $fullpathusers_image;
         $patient_list->line_id = $request->line_id;
         $patient_list->type = $request->type;
-        $patient_list->status = $request->status;
 
         $patient_list->save();
 

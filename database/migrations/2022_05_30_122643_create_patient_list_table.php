@@ -13,8 +13,8 @@ class CreatePatientListTable extends Migration
      */
     public function up()
     {
-        Schema::create('patient_list', function (Blueprint $table) {
-            $table->integer('patient_id');
+        Schema::create('patient_lists', function (Blueprint $table) {
+            $table->id('patient_id');
             $table->string('name');
             $table->string('nickname');
             $table->string('tel');
@@ -36,6 +36,6 @@ class CreatePatientListTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('patient_list');
+        Schema::dropIfExists('patient_lists');
     }
 }

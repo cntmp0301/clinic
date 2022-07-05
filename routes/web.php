@@ -52,10 +52,12 @@ Route::post('/patientchild/updatepatientchild', [App\Http\Controllers\patientlis
 //Admin
 Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'adminHome'])->name('admin.home')->middleware('type');
 
-
 //User
 Route::get('/userdata', [App\Http\Controllers\UserController::class, 'userdata'])->name('userdata');
 Route::post('/userdata/adduser', [App\Http\Controllers\UserController::class, 'adduser'])->name('adduser');
+
+//DoctorBone
+Route::get('/Doctorbone/home', [App\Http\Controllers\HomeController::class, 'Doctorbonehome'])->name('Doctorbone.home')->middleware('type');
 
 //Type
 Route::get('/typedrugs', [App\Http\Controllers\TypedrugsController::class, 'typedrugs'])->name('typedrugs');
@@ -65,7 +67,7 @@ Route::post('/updateType', [App\Http\Controllers\TypedrugsController::class, 'up
 
 //Send patient
 Route::get('/sendpatient', [App\Http\Controllers\patientlistController::class, 'sendpatient'])->name('sendpatient');
-Route::get('/sendpatient/statusupdate/{id}', [App\Http\Controllers\patientlistController::class, 'statusupdate'])->name('statusupdate');
+Route::get('/sendpatient/setstatusone/{id}', [App\Http\Controllers\patientlistController::class, 'setstatusone'])->name('setstatusone');
 
 //List patient check
 Route::get('/patientcheckbone', [App\Http\Controllers\patientlistController::class, 'patientcheckbone'])->name('patientcheckbone');
@@ -76,4 +78,6 @@ Route::get('/drugslist', [App\Http\Controllers\DrugListController::class, 'drugs
 Route::get('/drugs-low', [App\Http\Controllers\DrugListController::class, 'drugslow'])->name('drugs-low');
 Route::post('/drugslist/addDrugs', [App\Http\Controllers\DrugListController::class, 'addDrugs'])->name('addDrugs');
 
+//Stock
+Route::get('/stock', [App\Http\Controllers\StockController::class, 'stock'])->name('stock');
 

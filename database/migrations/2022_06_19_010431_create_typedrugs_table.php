@@ -14,7 +14,7 @@ class CreateTypedrugsTable extends Migration
     public function up()
     {
         Schema::create('typedrugs', function (Blueprint $table) {
-            $table->integer('id');
+            $table->id();
             $table->char('typename', 50);
             $table->timestamps();
         });

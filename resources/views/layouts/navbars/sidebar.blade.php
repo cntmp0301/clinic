@@ -94,11 +94,14 @@
             </form>
             <!-- Navigation -->
             <ul class="navbar-nav">
+                <?php if (auth()->user()->type == 1) { ?>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}">
                         <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
                     </a>
                 </li>
+                <?php 
+                } ?>
                 <?php if (auth()->user()->type == 1) { ?>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('userdata') }}">
@@ -107,15 +110,48 @@
                     </li>
                 <?php
                 } ?>
-                <?php if (auth()->user()->type == 0) { ?>
+                <!-- <?php if (auth()->user()->type == 2) { ?> //ตารางเก่า
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('sendpatient') }}">
                             <i class="ni ni-circle-08"></i> {{ __('ตารางสำหรับส่งรายชื่อคนไข้(กระดูก)') }}
                         </a>
                     </li>
                 <?php
+                } ?> -->
+                <?php if (auth()->user()->type == 2) { ?>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#navbar-sendpatient" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
+                        <!-- <i class="fab fa-laravel" style="color: #f4645f;"></i> -->
+                        <i class="ni ni-bullet-list-67"></i>
+                        <span class="nav-link-text">{{ __('ตารางสำหรับส่งรายชื่อคนไข้') }}</span>
+                    </a>
+                    <div class="collapse" id="navbar-sendpatient">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <!-- <a class="nav-link" href="{{ route('profile.edit') }}"> -->
+                                <a class="nav-link" href="{{ route('sendpatient') }}">
+                                    {{ __('คนไข้กระดูก') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('sendpatient') }}">
+                                    {{ __('คนไข้เด็ก') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <?php
                 } ?>
-                <?php if (auth()->user()->type == 1) { ?>
+                <?php if (auth()->user()->type == 2) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('sendpatient') }}">
+                            <i class="ni ni-circle-08"></i> {{ __('ตารางคนไข้ที่ตรวจแล้ว(กระดูก)') }}
+                        </a>
+                    </li>
+                <?php
+                } ?>
+                <?php if (auth()->user()->type == 3) { ?>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('patientcheckbone') }}">
                             <i class="ni ni-circle-08"></i> {{ __('รายชื่อคนไข้รอตรวจ(กระดูก)') }}
@@ -123,13 +159,13 @@
                     </li>
                 <?php
                 } ?>
+                <?php if (auth()->user()->type == 1 || auth()->user()->type == 2) { ?>
                 <li class="nav-item">
                     <a class="nav-link active" href="#navbar-patient" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
                         <!-- <i class="fab fa-laravel" style="color: #f4645f;"></i> -->
                         <i class="ni ni-bullet-list-67"></i>
                         <span class="nav-link-text">{{ __('รายชื่อคนไข้') }}</span>
                     </a>
-
                     <div class="collapse" id="navbar-patient">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
@@ -146,6 +182,17 @@
                         </ul>
                     </div>
                 </li>
+                <?php
+                } ?>
+                <?php if (auth()->user()->type == 1) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('stock') }}">
+                            <i class="fa-solid fa-capsules"></i> {{ __('จัดการสต๊อกยา') }}
+                        </a>
+                    </li>
+                <?php
+                } ?>
+                <?php if (auth()->user()->type == 1 || auth()->user()->type == 3 || auth()->user()->type == 4) { ?>
                 <li class="nav-item">
                     <a class="nav-link active" href="#navbar-drug" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
                         <!-- <i class="fab fa-laravel" style="color: #f4645f;"></i> -->
@@ -173,6 +220,8 @@
                         </ul>
                     </div>
                 </li>
+                <?php
+                } ?>
             </ul>
         </div>
         <a href="{{ route('logout') }}" class="btn btn-danger" onclick="event.preventDefault();

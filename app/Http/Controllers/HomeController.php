@@ -27,4 +27,8 @@ class HomeController extends Controller
     {
         return view('adminHome');
     }
+    public function Doctorbonehome()
+    {
+        return view('Doctorbonehome');
+    }
 }

@@ -51,8 +51,14 @@ class LoginController extends Controller
        if(auth()->attempt(array('email' => $input['email'],'password' => $input['password']))){
             if(auth()->user()->type == 1){
                 return redirect()->route('admin.home');
-            } else if(auth()->user()->type == 0){
+            } else if(auth()->user()->type == 2){
                 return redirect()->route('home');
+            }
+            else if(auth()->user()->type == 3){
+                return redirect()->route('Doctorbone.home');
+            }
+            else if(auth()->user()->type == 4){
+                return redirect()->route('Doctorbone.home');
             }
        } else {
             return redirect()->route('login')->with('error','Email or Password are wrong.');

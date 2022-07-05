@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSexesTable extends Migration
+class CreateStocksLogTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateSexesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sexes', function (Blueprint $table) {
+        Schema::create('stocks_logs', function (Blueprint $table) {
             $table->id();
-            $table->char('sex_name', 10);
+            $table->string('drug_id');
+            $table->string('add');
+            $table->string('remove');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +29,6 @@ class CreateSexesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sexes');
+        Schema::dropIfExists('stocks_log');
     }
 }

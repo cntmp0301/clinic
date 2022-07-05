@@ -19,6 +19,15 @@ class IsAdmin
         if(auth()->user()->type == 1){
             return $next($request);
         }
+        else if(auth()->user()->type == 2){
+            return $next($request);
+        }
+        else if(auth()->user()->type == 3){
+            return $next($request);
+        }
+        else if(auth()->user()->type == 4){
+            return $next($request);
+        }
 
         return redirect('home')->with('error', "You don't have admin access.");
     }

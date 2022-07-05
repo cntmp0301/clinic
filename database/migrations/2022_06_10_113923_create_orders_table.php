@@ -14,8 +14,8 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
+            $table->id('order_id');
             $table->integer('patient_id');
-            $table->integer('order_id');
             $table->string('discount');
             // $table->integer('product_id');
             $table->char('date_order', 50);

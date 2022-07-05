@@ -14,14 +14,59 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => 'User User',
-            'email' => 'User@argon.com',
+        DB::table('users')->insert(
+            [
+            'name' => 'Admin Admin',
+            'email' => 'admin@argon.com',
             'email_verified_at' => now(),
             'password' => Hash::make('secret'),
-            'type' => 0,
+            'type' => 1,
             'created_at' => now(),
             'updated_at' => now()
-        ]);
+            ],
+        );
+        DB::table('users')->insert(
+            [
+                'name' => 'User User',
+                'email' => 'user@argon.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('secret'),
+                'type' => 2,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+        );
+        DB::table('users')->insert(
+            [
+                'name' => 'Doctor Bone',
+                'email' => 'Drbone@argon.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('secret'),
+                'type' => 3,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+        );
+        DB::table('users')->insert(
+            [
+                'name' => 'Doctor Child',
+                'email' => 'Drchild@argon.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('secret'),
+                'type' => 4,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+        );
+        DB::table('sexes')->insert(
+            [
+                'sex_name' => 'ชาย'
+            ],
+        );
+        DB::table('sexes')->insert(
+            [
+                'sex_name' => 'หญิง'
+            ],
+        );
     }
 }

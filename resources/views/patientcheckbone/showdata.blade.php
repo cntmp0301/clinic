@@ -32,28 +32,28 @@
                             </tr>
                         </thead>
                         <tbody class="list">
-                            @foreach($data['patientlist'] as $row)
+                            @foreach($data['patientlog'] as $row)
                             <tr>
                                 <td class="text-center">
                                     {{$loop->index+1}}
                                 </td>
                                 <td class="text-center">
-                                    {{$row -> name}}
+                                    {{$row -> patient_list -> name}}
                                 </td>
                                 <td class="text-center">
-                                    {{$row -> nickname}}
+                                    {{$row -> patient_list -> nickname}}
                                 </td>
                                 <td class="text-center">
                                     {{$row -> sexname -> sex_name}}
                                 </td>
                                 <td class="text-center">
-                                    {{$row -> tel}}
+                                    {{$row -> patient_list -> tel}}
                                 </td>
                                 <td class="text-center">
-                                    {{$row -> address}}
+                                    {{$row -> patient_list -> address}}
                                 </td>
                                 <td class="text-center">
-                                    {{$row -> line_id}}
+                                    {{$row -> patient_list -> line_id}}
                                 </td>
                                 <td class="text-right">
                                     <!--<a data-toggle="modal" data-target="#custDetailModal" class="btn btn-info">รายละเอียด</a>-->

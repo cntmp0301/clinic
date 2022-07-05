@@ -153,7 +153,6 @@
                         <input type="text" name="line_id" class="form-control" placeholder="">
                     </div>
                     <input type="hidden" name="type" value="1">
-                    <input type="hidden" name="status" value="0">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">ออก</button>

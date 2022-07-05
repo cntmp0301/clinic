@@ -113,16 +113,12 @@
             <input type="text" name="tel" class="form-control" placeholder="">
           </div>
           <div class="form-group">
-            <label> Username </label>
-            <input type="text" name="username" class="form-control" placeholder="">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" placeholder="">
           </div>
           <div class="form-group">
             <label>Password</label>
             <input type="password" name="password" class="form-control" placeholder="">
-          </div>
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" name="email" class="form-control" placeholder="">
           </div>
           <div class="form-group">
             <label>รูป</label>
@@ -132,8 +128,8 @@
           <div class="form-group">
             <label>สิทธิ</label>
             <select name="type" class="form-control">
-              <option value="admin">หมอ</option>
-              <option value="user">พนักงาน</option>
+              <option value="1">หมอ</option>
+              <option value="2">พนักงาน</option>
             </select>
           </div>
         </div>
