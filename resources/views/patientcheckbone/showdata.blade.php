@@ -44,7 +44,7 @@
                                     {{$row -> patient_list -> nickname}}
                                 </td>
                                 <td class="text-center">
-                                    {{$row -> sexname -> sex_name}}
+                                    {{$row -> patient_list -> sexname -> sex_name}}
                                 </td>
                                 <td class="text-center">
                                     {{$row -> patient_list -> tel}}
@@ -165,6 +165,7 @@
 <!-- Argon Scripts -->
 <!-- Core -->
 <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
+
 <!--<script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>-->
 <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
 <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
@@ -178,6 +179,7 @@
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     $('#image').change(function() {

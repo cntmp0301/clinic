@@ -186,6 +186,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <input type="hidden" id="rowId">
                     </div>
                 </div>
             </div>
@@ -199,7 +200,7 @@
 <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
 <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
 <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <!-- Argon JS -->
 <script src="../assets/js/argon.js?v=1.2.0"></script>
 <script src="../assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
@@ -211,6 +212,7 @@
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
+
 <script type="text/javascript">
     $(document).ready(function() {
         var sexindex = "{{$data['patient_list'][0]->sex}}";
@@ -218,6 +220,7 @@
 
         //เพิ่มแถว
         $("#addDrug").on("click", function() {
+            alert(1);
             var counter = $("#rowcounter").val();
             var newRow = $("<tr class=addedrow id=" + counter + ">");
             var cols = "";
@@ -242,10 +245,6 @@
             calculateGrandTotal();
         });
 
-        $(document.body).on('click', '.searchDrug', function() {
-            var rowId = $(this).closest('tr').attr('id');
-            $("#rowId").val(rowId);
-        });
 
     });
 
@@ -255,6 +254,46 @@
             $('#preview-image-before-upload').attr('src', e.target.result);
         }
         reader.readAsDataURL(this.files[0]);
+    });
+
+    $(document.body).on('click', '.searchDrug', function() {
+            var rowId = $(this).closest('tr').attr('id');
+            $("#rowId").val(rowId);
+        });
+
+    $('.btnSelectDrug').on('click', function() {
+        var $rowId = $('#rowId').val();
+        var $row = jQuery(this).closest('tr');
+        var $columns = $row.find('td');
+        $columns.addClass('row-highlight');
+        var drugId = "";
+        var drugName = "";
+        var costPrice = "";
+        var sellPrice = "";
+        var count = 0;
+        jQuery.each($columns, function(i, item) {
+            item.innerHTML;
+            if (count == 0) {
+                drugId = item.innerHTML;
+            }
+            if (count == 1) {
+                drugName = item.innerHTML;
+            }
+            if (count == 2) {
+                costPrice = item.innerHTML;
+            }
+            if (count == 3) {
+                sellPrice = item.innerHTML;
+            }
+            count++;
+        });
+        //ส่งค่ามาแปะที่ฟอร์ม
+        $("#" + $rowId).find('input[name="drug_id[]"]').val(drugId);
+        $("#" + $rowId).find('input[name="drug_name[]"]').val(drugName);
+        $("#" + $rowId).find('input[name="cost_price[]"]').val(costPrice);
+        $("#" + $rowId).find('input[name="sell_price[]"]').val(sellPrice);
+        
+        $('#drugSearchModal').modal('hide');
     });
 </script>
 @endsection

@@ -18,9 +18,5 @@ class patient_log extends Model
     {   
         return $this->hasOne(patient_list::class, 'patient_id', 'id');
     }
-    public function sexname()
-    {   
-        return $this->hasOne(sexes::class, 'id', 'sex');
-    }
 }
 

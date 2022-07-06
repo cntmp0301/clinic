@@ -49,42 +49,6 @@
 
 <script>
     $(document).ready(function() {
-        $('#drug').DataTable();
-
-        $('.btnSelectDrug').on('click', function() {
-            // alert(1);
-            var $rowId = $('#rowId').val()
-            var $row = jQuery(this).closest('tr');
-            var $columns = $row.find('td');
-
-            $columns.addClass('row-highlight');
-            var drugId = "";
-            var drugName = "";
-            var costPrice = "";
-            var sellPrice = "";
-            var count = 0;
-            jQuery.each($columns, function(i, item) {
-                item.innerHTML;
-                if (count == 0) {
-                    drugId = item.innerHTML;
-                }
-                if (count == 1) {
-                    drugName = item.innerHTML;
-                }
-                if (count == 2) {
-                    costPrice = item.innerHTML;
-                }
-                if (count == 3) {
-                    sellPrice = item.innerHTML;
-                }
-                count++;
-            });
-            //ส่งค่ามาแปะที่ฟอร์ม
-            $("#" + $rowId).find('input[name="drug_id[]"]').val(drugId);
-            $("#" + $rowId).find('input[name="drug_name[]"]').val(drugName);
-            $("#" + $rowId).find('input[name="cost_price[]"]').val(costPrice);
-            $("#" + $rowId).find('input[name="sell_price[]"]').val(sellPrice);
-            $('#drugSearchModal').modal('hide');
-        });
+       
     });
 </script>
