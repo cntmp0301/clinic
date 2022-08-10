@@ -1,6 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
+<html>
+<style>
+    .dataTables_filter {
+        float: right;
+    }
+
+    .dataTables_info {
+        float: left;
+    }
+
+    .dataTables_paginate {
+        float: right;
+    }
+</style>
+
+</html>
 
 <div class="container-fluid mt-5">
     <div class="row">
@@ -16,7 +32,7 @@
                     <table class="table align-items-center table-flush dtab">
                         <div class="card-header border-0">
                             <div class="text-left">
-                                <h3 class="mb-0">ตารางส่งรายชื่อคนไข้(กระดูก)&nbsp;</h3>
+                                <h3 class="mb-0">ตารางส่งรายชื่อคนไข้(เด็ก)&nbsp;</h3>
                             </div>
                         </div>
                         <thead class="thead-light">
@@ -56,9 +72,8 @@
                                     {{$row -> line_id}}
                                 </td>
                                 <td class="text-right">
-                                    <!--<a data-toggle="modal" data-target="#custDetailModal" class="btn btn-info">รายละเอียด</a>-->
-                                    <a href="{{url('/sendpatient/setstatusone/'.$row->patient_id)}}" title="ส่งชื่อคนไข้" data-toggle="tooltip" class="btn btn-primary"><i class="fa-solid fa-check"></i></a>
-                                    <!-- <a href="{{ url('/general/customer/softDeleteCustomer/'.$row->customer_number) }}" title="ลบข้อมูล" data-toggle="tooltip" class="btn btn-danger delbtn"><i class="fa fa-trash fa-sm" aria-hidden="true"></i></a> -->
+                                    <!-- <a href="{{url('/sendpatientchild/startPatientChildLog/'.$row->patient_id)}}" title="ส่งชื่อคนไข้" data-toggle="tooltip" class="btn btn-primary"><i class="fa-solid fa-check"></i></a> -->
+                                    <button type='button' class='btn btn-primary' title="ส่งชื่อคนไข้" onclick='checkChildSwal("{{$row -> patient_id}}","{{$row -> name}}")'><i class="fa-solid fa-arrow-right-to-bracket"></i></button>
                                 </td>
                             </tr>
                             @endforeach
@@ -100,7 +115,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">เพิ่มข้อมูลคนไข้กระดูก</h5>
+                <h5 class="modal-title" id="exampleModalLabel">เพิ่มข้อมูลคนไข้เด็ก</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -148,7 +163,7 @@
                         <label> LINE ID </label>
                         <input type="text" name="line_id" class="form-control" placeholder="">
                     </div>
-                    <input type="hidden" name="type" value="กระดูก">
+                    <input type="hidden" name="type" value="เด็ก">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">ออก</button>
@@ -174,10 +189,14 @@
 
 <!-- Datatable -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js|https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js" defer></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js" defer></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script><!-- sweetalert2-->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script><!-- axios-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script type="text/javascript">
     $('#image').change(function() {
@@ -188,27 +207,108 @@
         reader.readAsDataURL(this.files[0]);
     });
 
-    $(".dtab").DataTable({
-    columnDefs: [
-        {
-            defaultContent: "-",
-            targets: "_all",
-        },
-    ],
-    language: {
-        paginate: {
-            previous: "<",
-            next: ">",
-        },
-    },
-    lengthMenu: [10, 20, 50, 100],
-    oLanguage: {
-        sSearch: "ค้นหา:",
-        sLengthMenu: " แสดง _MENU_ รายการ/หน้า",
-        sInfo: "รายการที่ _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
-    },
-});
+    $(document).ready(function() {
+        $(".dtab").DataTable({
+            columnDefs: [{
+                defaultContent: "-",
+                targets: "_all",
+            }, ],
+            language: {
+                paginate: {
+                    previous: "<",
+                    next: ">",
+                },
+            },
+            lengthMenu: [10, 20, 50, 100],
+            oLanguage: {
+                sSearch: "ค้นหา : ",
+                sLengthMenu: " แสดง _MENU_ รายการ/หน้า",
+                sInfo: "รายการที่ _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+            },
+        });
+        $(".dataTables_length").hide();
+        //$(".dataTables_info").hide();
+    });
 
-    
+    function checkChildSwal(patient_id, name) {
+        var _token = $('input[name="_token"').val();
+        $.ajax({
+            url: "{{route('CheckDataChild')}}",
+            method: "POST",
+            data: {
+                patient_id: patient_id,
+                _token: _token
+            },
+            dataType: "json",
+            success: function(result) {
+                console.log(result.count_data);
+                var count_data = result.count_data;
+                if (count_data > 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'คุณส่งรายชื่อคนไข้ไปแล้ว!'
+                    })
+                } else {
+                    Swal.fire({
+                        title: 'คุณต้องการส่งคนไข้ชื่อ ' + name + ' ใช่หรือไม่?',
+                        icon: 'warning',
+                        showLoaderOnConfirm: true,
+                        confirmButtonText: 'ตกลง',
+                        showCancelButton: true,
+                        cancelButtonText: 'ยกเลิก',
+                        preConfirm: () => {
+                            return axios
+                                .post("{{route('startPatientChildLog')}}", {
+                                    patient_id
+                                })
+                                .then(res => {
+                                    return res.data;
+                                })
+                                .catch(err => {
+                                    Swal.showValidationMessage(err.response.data.message);
+                                });
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                    }).then(result => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: result.value.message,
+                        });
+                    });
+                }
+            }
+        })
+    }
+
+    // function checkChildSwal(patient_id,name) 
+    // {
+    //     Swal.fire({
+    //         title: 'คุณต้องการส่งคนไข้ชื่อ '+ name +' ใช่หรือไม่?',
+    //         icon: 'warning',
+    //         showLoaderOnConfirm: true,
+    //         confirmButtonText: 'ตกลง',
+    //         showCancelButton: true,
+    //         cancelButtonText: 'ยกเลิก',
+    //         preConfirm: () => {
+    //             return axios
+    //                 .post("{{route('startPatientChildLog')}}", {
+    //                     patient_id
+    //                 })
+    //                 .then(res => {
+    //                     return res.data;
+    //                 })
+    //                 .catch(err => {
+    //                     Swal.showValidationMessage(err.response.data.message);
+    //                 });
+    //         },
+    //         allowOutsideClick: () => !Swal.isLoading()
+    //     }).then(result => {
+    //         Swal.fire({
+    //             icon: 'success',
+    //             title: result.value.message,
+    //         });
+    //     });
+    // }
 </script>
 @endsection

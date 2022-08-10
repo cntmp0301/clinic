@@ -14,15 +14,15 @@ class CreatePatientListTable extends Migration
     public function up()
     {
         Schema::create('patient_lists', function (Blueprint $table) {
-            $table->id('patient_id');
+            $table->string('patient_id')->primary();
             $table->string('name');
             $table->string('nickname');
             $table->string('tel');
             $table->string('address');
             $table->string('sex');
-            $table->string('age');
-            $table->string('drug_allergy');
-            $table->string('users_image');
+            $table->date('birthdate');
+            $table->string('drug_allergy')->nullable();
+            $table->string('users_image')->nullable();
             $table->string('line_id');
             $table->integer('type');
             $table->timestamps();

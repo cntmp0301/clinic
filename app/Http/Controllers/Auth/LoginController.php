@@ -29,7 +29,7 @@ class LoginController extends Controller
      */
     // protected $redirectTo = RouteServiceProvider::HOME;
     protected $redirectTo = '/home';
-
+    
     /**
      * Create a new controller instance.
      *
@@ -52,13 +52,13 @@ class LoginController extends Controller
             if(auth()->user()->type == 1){
                 return redirect()->route('admin.home');
             } else if(auth()->user()->type == 2){
-                return redirect()->route('home');
+                return redirect()->route('UserHome.home');
             }
             else if(auth()->user()->type == 3){
-                return redirect()->route('Doctorbone.home');
+                return redirect()->route('DoctorBone.home');
             }
             else if(auth()->user()->type == 4){
-                return redirect()->route('Doctorbone.home');
+                return redirect()->route('DoctorChild.home');
             }
        } else {
             return redirect()->route('login')->with('error','Email or Password are wrong.');

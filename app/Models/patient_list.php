@@ -15,7 +15,7 @@ class patient_list extends Model
         'tel',
         'address',
         'sex',
-        'age',
+        'birthdate',
         'drug_allergy',
         'users_image',
         'line_id',

@@ -1,0 +1,296 @@
+@extends('layouts.app')
+
+@section('content')
+<html>
+<style>
+    .dataTables_filter {
+        float: right;
+    }
+
+    .dataTables_info {
+        float: left;
+    }
+
+    .dataTables_paginate {
+        float: right;
+    }
+</style>
+
+</html>
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <!-- Card header -->
+
+                <!-- Light table -->
+                <div class="table-responsive">
+                    <!-- <div class="card-header border-0">
+                        <h3 class="mb-0">Light table</h3>
+                    </div> -->
+                    <table class="table align-items-center table-flush dtab">
+                        <div class="card-header border-0">
+                            <div class="text-left">
+                                <h3 class="mb-0">ตารางส่งรายชื่อคนไข้(กระดูก)&nbsp;</h3>
+                            </div>
+                        </div>
+                        <!-- <div class="input-group input-group-rounded input-group-merge col-sm-3 float-right">
+                            <input type="search" class="form-control form-control-rounded form-control-prepended" placeholder="{{ __('Search') }}" aria-label="Search">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <span class="fa fa-search"></span>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="sort text-center" data-sort="name">ลำดับ</th>
+                                <th scope="col" class="sort text-center" data-sort="name">ชื่อ-นามสกุล</th>
+                                <th scope="col" class="sort text-center" data-sort="nickname">ชื่อเล่น</th>
+                                <th scope="col" class="sort text-center" data-sort="sex">เพศ</th>
+                                <th scope="col" class="sort text-center" data-sort="tel">เบอร์โทร</th>
+                                <th scope="col" class="sort text-center" data-sort="address">ที่อยู่</th>
+                                <th scope="col" class="sort text-center" data-sort="lineid">ไลน์ไอดี</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            @foreach($data['patientlist'] as $row)
+                            <tr>
+                                <td class="text-center">
+                                    {{$loop->index+1}}
+                                </td>
+                                <td class="text-center">
+                                    {{$row -> name}}
+                                </td>
+                                <td class="text-center">
+                                    {{$row -> nickname}}
+                                </td>
+                                <td class="text-center">
+                                    {{$row -> sexname -> sex_name}}
+                                </td>
+                                <td class="text-center">
+                                    {{$row -> tel}}
+                                </td>
+                                <td class="text-center">
+                                    {{$row -> address}}
+                                </td>
+                                <td class="text-center">
+                                    {{$row -> line_id}}
+                                </td>
+                                <td class="text-right">
+                                    <!-- <a href="{{url('/sendpatientbone/startPatientBoneLog/'.$row->patient_id)}}" title="ส่งชื่อคนไข้" data-toggle="tooltip" class="btn btn-primary"><i class="fa-solid fa-check"></i></a> -->
+                                    <button type='button' class='btn btn-primary' title="ส่งชื่อคนไข้" onclick='checkBoneSwal("{{$row -> patient_id}}","{{$row -> name}}")'><i class="fa-solid fa-arrow-right-to-bracket"></i></button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addpatientbone" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">เพิ่มข้อมูลคนไข้กระดูก</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{route('addpatientbone')}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label> ชื่อ </label>
+                        <input type="text" name="name" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label> ชื่อเล่น </label>
+                        <input type="text" name="nickname" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>เบอร์โทร</label>
+                        <input type="text" name="tel" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label> ที่อยู่ </label>
+                        <input type="text" name="contact" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>เพศ</label>
+                        <select name="sex" class="form-control">
+                            @foreach($data['sex'] as $row)
+                            <option value="{{$row -> id}}">{{$row -> sex_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>อายุ</label>
+                        <input type="text" name="age" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label> ประวัติการแพ้ยา </label>
+                        <input type="text" name="drug_allergy" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>รูป</label>
+                        <input type="file" class="form-control" name="users_image" id="users_image">
+                    </div>
+                    <div class="form-group">
+                        <label> LINE ID </label>
+                        <input type="text" name="line_id" class="form-control" placeholder="">
+                    </div>
+                    <input type="hidden" name="type" value="กระดูก">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ออก</button>
+                    <button type="submit" name="registerbtn" class="btn btn-primary">บันทึก</button>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Argon Scripts -->
+<!-- Core -->
+<script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
+<!--<script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>-->
+<script src="../assets/vendor/js-cookie/js.cookie.js"></script>
+<script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+<script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+<!-- Argon JS -->
+<script src="../assets/js/argon.js?v=1.2.0"></script>
+
+<!-- Datatable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js|https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js" defer></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js" defer></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js" defer></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js" defer></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script><!-- sweetalert2-->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script><!-- axios-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+    $('#image').change(function() {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+            $('#preview_image').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(this.files[0]);
+    });
+    $(document).ready(function() {
+        $(".dtab").DataTable({
+            columnDefs: [{
+                defaultContent: "-",
+                targets: "_all",
+            }, ],
+            language: {
+                paginate: {
+                    previous: "<",
+                    next: ">",
+                },
+            },
+            lengthMenu: [10, 20, 50, 100],
+            oLanguage: {
+                sSearch: "ค้นหา : ",
+                sLengthMenu: " แสดง _MENU_ รายการ/หน้า",
+                sInfo: "รายการที่ _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+            },
+        });
+        $(".dataTables_length").hide();
+        //$(".dataTables_info").hide();
+    });
+
+    function checkBoneSwal(patient_id, name) {
+        var _token = $('input[name="_token"').val();
+        $.ajax({
+            url: "{{route('CheckDataBone')}}",
+            method: "POST",
+            data: {
+                patient_id: patient_id,
+                _token: _token
+            },
+            dataType: "json",
+            success: function(result) {
+                console.log(result.count_data);
+                var count_data = result.count_data;
+                if (count_data > 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'คุณส่งรายชื่อคนไข้ไปแล้ว!'
+                    })
+                } else {
+                    Swal.fire({
+                        title: 'คุณต้องการส่งคนไข้ชื่อ ' + name + ' ใช่หรือไม่?',
+                        icon: 'warning',
+                        showLoaderOnConfirm: true,
+                        confirmButtonText: 'ตกลง',
+                        showCancelButton: true,
+                        cancelButtonText: 'ยกเลิก',
+                        preConfirm: () => {
+                            return axios
+                                .post("{{route('startPatientBoneLog')}}", {
+                                    patient_id
+                                })
+                                .then(res => {
+                                    return res.data;
+                                })
+                                .catch(err => {
+                                    Swal.showValidationMessage(err.response.data.message);
+                                });
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                    }).then(result => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: result.value.message,
+                        });
+                    });
+                }
+            }
+        })
+    }
+    //ปุ่มเก่า
+    // function checkBoneSwal(patient_id, name) {
+    //     Swal.fire({
+    //         title: 'คุณต้องการส่งคนไข้ชื่อ ' + name + ' ใช่หรือไม่?',
+    //         icon: 'warning',
+    //         showLoaderOnConfirm: true,
+    //         confirmButtonText: 'ตกลง',
+    //         showCancelButton: true,
+    //         cancelButtonText: 'ยกเลิก',
+    //         preConfirm: () => {
+    //             return axios
+    //                 .post("{{route('startPatientBoneLog')}}", {
+    //                     patient_id
+    //                 })
+    //                 .then(res => {
+    //                     return res.data;
+    //                 })
+    //                 .catch(err => {
+    //                     Swal.showValidationMessage(err.response.data.message);
+    //                 });
+    //         },
+    //         allowOutsideClick: () => !Swal.isLoading()
+    //     }).then(result => {
+    //         Swal.fire({
+    //             icon: 'success',
+    //             title: result.value.message,
+    //         });
+    //     });
+    // }
+</script>
+@endsection

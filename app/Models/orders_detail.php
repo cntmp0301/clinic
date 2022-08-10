@@ -14,4 +14,9 @@ class orders_detail extends Model
         'amount',
         'price'
     ];
+
+    public function dname()
+    {
+        return $this->hasOne(drugs_list::class, 'drug_id', 'drug_id');
+    }
 }

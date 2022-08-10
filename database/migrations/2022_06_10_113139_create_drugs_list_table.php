@@ -14,12 +14,12 @@ class CreateDrugsListTable extends Migration
     public function up()
     {
         Schema::create('drugs_lists', function (Blueprint $table) {
-            $table->id('drug_id');
-            $table->char('drug_name', 50);
-            $table->char('cost_price', 50);
-            $table->char('sell_price', 50);
-            $table->char('item_qty', 50);
-            $table->char('description', 50);
+            $table->string('drug_id')->primary();
+            $table->string('drug_name', 50);
+            $table->string('cost_price', 50);
+            $table->string('sell_price', 50);
+            $table->string('item_qty', 50);
+            $table->string('description', 50);
             $table->timestamps();
         });
     }

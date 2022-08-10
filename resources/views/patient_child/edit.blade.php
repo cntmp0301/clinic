@@ -18,21 +18,24 @@
                     @csrf
                     <br>
                     <div class="card">
-                        <div class="card-body img-center">
+                        <!-- <div class="card-body img-center">
                             <img id="preview-image-before-upload" src="" alt="preview image" width="150px" height="150px">
+                        </div> -->
+                        <div class="card-body img-center">
+                            <img id="preview-image-before-upload" src="{{asset($data['patient_list'][0] -> users_image)}}" alt="preview image" width="200px" height="200px">
                         </div>
                         <div class="form-group col-md-4 center">
-                            <input type="file" class="form-control" name="employee_image" id="employee_image" value="">
+                            <input type="file" class="form-control" name="users_image" id="users_image" value="{{asset($data['patient_list'][0] -> users_image)}}">
                         </div>
                     </div>
                     <br>
                     <div class="form-row">
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <label for="patient_id">รหัสคนไข้</label>
                             <input type="text" class="form-control" id="patient_id" name="patient_id" value="{{$data['patient_list'][0] -> patient_id}}" readonly>
                         </div>
 
-                        <div class="form-group col-md-7">
+                        <div class="form-group col-md-4">
                             <label for="patient_name">ชื่อ-นามสกุล</label>
                             <input type="text" class="form-control" id="patient_name" name="patient_name" value="{{$data['patient_list'][0] -> name}}">
                         </div>
@@ -50,10 +53,13 @@
                                 @endforeach
                             </select>
                         </div>
-
+                        <div class="form-group col-md-2">
+                            <label for="patient_birthdate">วัน/เดือน/ปีเกิด</label>
+                            <input type="date" class="form-control" id="patient_birthdate" name="patient_birthdate" value="{{$data['patient_list'][0] -> birthdate}}">
+                        </div>
                         <div class="form-group col-md-1">
                             <label for="patient_age">อายุ</label>
-                            <input type="text" class="form-control" id="patient_age" name="patient_age" value="{{$data['patient_list'][0] -> age}}">
+                            <input type="text" class="form-control" id="patient_age" name="patient_age" value="{{\Carbon\Carbon::parse($data['patient_list'][0] -> birthdate)->diff(\Carbon\Carbon::now())->format('%y')}}" readonly>
                         </div>
                     </div>
 
@@ -102,20 +108,38 @@
 <!-- Argon JS -->
 <script src="../assets/js/argon.js?v=1.2.0"></script>
 
-<!-- Datatable -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js|https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-    $('#image').change(function() {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            $('#preview_image').attr('src', e.target.result);
-        }
-        reader.readAsDataURL(this.files[0]);
+    $(document).ready(function() {
+
     });
+
+    $('#patient_birthdate').on("change", function(event) {
+        ageCalculator();
+    });
+
+    function ageCalculator() {
+        var userinput = document.getElementById("patient_birthdate").value;
+        var dob = new Date(userinput);
+        if (userinput == null || userinput == '') {
+            document.getElementById("message").innerHTML = "*โปรดเลือกวันเกิด !";
+            return false;
+        } else {
+
+            //calculate month difference from current date in time
+            var month_diff = Date.now() - dob.getTime();
+            //convert the calculated difference in date format
+            var age_dt = new Date(month_diff);
+            //extract year from date    
+            var year = age_dt.getUTCFullYear();
+            //now calculate the age of the user
+            var age = Math.abs(year - 1970);
+            //display the calculated age
+            // return document.getElementById("totalage").innerHTML =
+            //     "Age is: " + age + " years. ";
+            $("#patient_age").val(age);
+        }
+    }
 </script>
 @endsection

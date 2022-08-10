@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid mt-5">
-@include('modal/drugModal')
+    @include('modal/drugModal')
     <div class="card">
         <div class="card-header" id="headingOne">
             <h5 class="mb-0">
@@ -19,21 +19,24 @@
                     @csrf
                     <br>
                     <div class="card">
-                        <div class="card-body img-center">
+                        <!-- <div class="card-body img-center">
                             <img id="preview-image-before-upload" src="" alt="preview image" width="150px" height="150px">
+                        </div> -->
+                        <div class="card-body img-center">
+                            <img id="preview-image-before-upload" src="{{asset($data['patient_list'][0] -> users_image)}}" alt="preview image" width="200px" height="200px">
                         </div>
-                        <div class="form-group col-md-4 center">
-                            <input type="file" class="form-control" name="employee_image" id="employee_image" value="">
-                        </div>
+                        <!-- <div class="form-group col-md-4 center">
+                            <input type="file" class="form-control" name="users_image" id="users_image" value="{{asset($data['patient_list'][0] -> users_image)}}">
+                        </div> -->
                     </div>
                     <br>
                     <div class="form-row">
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <label for="patient_id">รหัสคนไข้</label>
                             <input type="text" class="form-control" id="patient_id" name="patient_id" value="{{$data['patient_list'][0] -> patient_id}}" readonly>
                         </div>
 
-                        <div class="form-group col-md-7">
+                        <div class="form-group col-md-4">
                             <label for="patient_name">ชื่อ-นามสกุล</label>
                             <input type="text" class="form-control" id="patient_name" name="patient_name" value="{{$data['patient_list'][0] -> name}}" readonly>
                         </div>
@@ -51,10 +54,13 @@
                                 @endforeach
                             </select>
                         </div>
-
+                        <div class="form-group col-md-2">
+                            <label for="patient_birthdate">วัน/เดือน/ปีเกิด</label>
+                            <input type="date" class="form-control" id="patient_birthdate" name="patient_birthdate" value="{{$data['patient_list'][0] -> birthdate}}" readonly>
+                        </div>
                         <div class="form-group col-md-1">
                             <label for="patient_age">อายุ</label>
-                            <input type="text" class="form-control" id="patient_age" name="patient_age" value="{{$data['patient_list'][0] -> age}}" readonly>
+                            <input type="text" class="form-control" id="patient_age" name="patient_age" value="{{\Carbon\Carbon::parse($data['patient_list'][0] -> birthdate)->diff(\Carbon\Carbon::now())->format('%y')}}" readonly>
                         </div>
                     </div>
 
@@ -90,105 +96,112 @@
 
                 </form>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="text-left">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            ข้อมูลจ่ายยา
-                        </button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    ประวัติการรักษา
+                </button>
+            </h5>
+        </div>
+        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="sort text-center" data-sort="">ลำดับ</th>
+                                <th scope="col" class="sort text-center" data-sort="">วันที่</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            @foreach($data['patient_hitsories'] as $row)
+                            <tr>
+                                <td class="text-center">
+                                    {{$loop -> index+1}}
+                                </td>
+                                <td class="text-center">
+                                    {{$row -> date_history}}
+                                </td>
+                                <td class="text-right">
+                                    <!-- <a href="{{ url('/general/customer/editCustomer/'.$row->patient_id) }}" title="รายละเอียด" data-toggle="tooltip" class="btn btn-primary"><i class="fas fa-solid fa-eye"></i></a> -->
+                                    <a href="#" data-target="#showDetail" data-toggle="modal" data-id="{{ $row -> id }}" data-order="{{ $row -> order_id }}" data-date="{{ $row -> date_history }}" data-nextdate="{{ $row -> next_check }}" data-symptoms="{{ $row -> patient_symptoms }}" title="รายละเอียด" class="btn btn-primary btnDetail"><i class="fas fa-solid fa-eye"></i></a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="text-center">
+        <a href="{{url('/patientcheckbone/patientBoneTreatment/'.$data['patient_list'][0] -> patient_id)}}" title="เพิ่มประวัติการรักษา" data-toggle="tooltip" class="btn btn-primary">เพิ่มประวัติการรักษา</a>
+        <input id="addDrug" type="button" class="btn btn-danger" value="ย้อนกลับ">
+    </div>
+    <br>
+
+
+
+</div>
+
+<div class="modal fade" id="showDetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">รายละเอียดการรักษา</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- <form action="{{route('updateType')}}" method="POST" enctype="multipart/form-data">
+                @csrf -->
+            <input type="hidden" name="idInModal" id="idInModal">
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label> วันที่ตรวจ </label>
+                        <input type="text" name="dateHitsoryInModal" id="dateHitsoryInModal" class="form-control" readonly>
+
                     </div>
-                    <div class="text-right">
-                        <input id="addDrug" type="button" class="btn btn-outline-primary btn-sm" value="เพิ่มข้อมูลยา">
+                    <div class="form-group col-md-6">
+                        <label> วันที่นัดครั้งถัดไป </label>
+                        <input type="text" name="nextDateInModal" id="nextDateInModal" class="form-control" readonly>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <input id="rowcounter" type="hidden" value="1">
-                        <table id="drugList" class="table align-items-center table-bordered table-sm order-list" style="width:100%">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col" class="sort text-center" data-sort=""></th>
-                                    <th scope="col" class="sort text-center" data-sort="">รหัสยา</th>
-                                    <th scope="col" class="sort text-center" data-sort="">ชื่อยา</th>
-                                    <th scope="col" class="sort text-center" data-sort="">จำนวน</th>
-                                    <th scope="col" class="sort text-center" data-sort="">ราคาต้นทุน</th>
-                                    <th scope="col" class="sort text-center" data-sort="">ราคาขาย</th>
-                                    <th scope="col" class="sort text-center" data-sort="">จำนวนเงิน</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody class="list">
-                                <tr id="0">
-                                    <td class="text-center" style="width: 5%">
-                                        <label for="inputDrug" class="text-primary"><i class="fa fa-search searchDrug" data-toggle="modal" data-target="#drugSearchModal">&nbsp;ค้นหา</i></label>
-                                    </td>
-                                    <td class="text-center" style="width: 20%"><input type="text" class="form-control form-control-sm" name="drug_id[]"></td>
-                                    <td class="text-center" style="width: 20%"><input type="text" class="form-control form-control-sm" name="drug_name[]"></td>
-                                    <td class="text-center" style="width: 20%"><input type="text" class="form-control form-control-sm" name="drug_qty[]"></td>
-                                    <td class="text-center" style="width: 10%"><input type="text" class="form-control form-control-sm" name="cost_price[]"></td>
-                                    <td class="text-center" style="width: 10%"><input type="text" class="form-control form-control-sm" name="sell_price[]"></td>
-                                    <td class="text-center" style="width: 10%"><input type="text" class="form-control form-control-sm" name="drug_total_price[]"></td>
-                                    <td class="text-center" style="width: 10%"></td>
-                                </tr>
-                                <!--แทรก Row-->
-                                <!-- <tr id="lastRowTax">
-                                    <td class="text-center" colspan="5"></td>
-                                    <td class="text-right">
-                                        <H5>รวมเงินก่อนหักส่วนลดการค้า</H5>
-                                    </td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"><input type="text" class="form-control form-control-sm" id="total_price" name="total_price" readonly></td>
-                                    <td class="text-center"></td>
-                                </tr>
-                                <tr id="lastRowTax">
-                                    <td class="text-center" colspan="5"></td>
-                                    <td class="text-right">
-                                        <H5>ส่วนลดการค้า(%)</H5>
-                                    </td>
-                                    <td class="text-center"><input type="number" class="form-control form-control-sm" id="discount_rate" name="discount_rate"></td>
-                                    <td class="text-center"><input type="text" class="form-control form-control-sm" id="discount_price" name="discount_price" readonly></td>
-                                    <td class="text-center"></td>
-                                </tr>
-                                <tr id="lastRowTax">
-                                    <td class="text-center" colspan="5"></td>
-                                    <td class="text-right">
-                                        <H5>รวมเงินก่อนหักภาษี</H5>
-                                    </td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"><input type="text" class="form-control form-control-sm" id="total_price_discount" name="total_price_discount" readonly></td>
-                                    <td class="text-center"></td>
-                                </tr>
-                                <tr id="lastRowTax">
-                                    <td class="text-center" colspan="5"></td>
-                                    <td class="text-right">
-                                        <H5>ฐานภาษี</H5>
-                                    </td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"><input type="text" class="form-control form-control-sm" id="tax_base" name="tax_base" readonly></td>
-                                    <td class="text-center"></td>
-                                </tr>
-                                <tr id="lastRowTax">
-                                    <td class="text-center" colspan="5"></td>
-                                    <td class="text-right">
-                                        <H5>ภาษีมูลค่าเพิ่ม</H5>
-                                    </td>
-                                    <td class="text-center"><input type="number" class="form-control form-control-sm" id="vat_percentage" name="vat_percentage"></td>
-                                    <td class="text-center"><input type="text" class="form-control form-control-sm" id="total_vat" name="total_vat" readonly></td>
-                                    <td class="text-center"></td>
-                                </tr> -->
-                                <tr id="lastRow">
-                                    <td class="text-center" colspan="5"></td>
-                                    <td class="text-right">
-                                        <H5>จำนวนเงินทั้งสิ้น</H5>
-                                    </td>
-                                    <td class="text-center"><input id="grandtotal" type="text" class="form-control form-control-sm" name="grandtotal" readonly></td>
-                                    <td class="text-center"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <input type="hidden" id="rowId">
-                    </div>
+                <div class="form-group">
+                    <label> อาการ </label>
+                    <textarea class="form-control" id="patientSymptomsInModal" name="patientSymptomsInModal" rows="3" readonly></textarea>
+                    <!-- <input type="text" name="patientSymptomsInModal" id="patientSymptomsInModal" class="form-control"> -->
                 </div>
+
+                <label> ประวัติการจ่ายยา </label>
+                <div class="table-responsive">
+                    <table id="drugTab" class="table table-bordered table-sm align-items-center" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="sort text-center" style="width: 20%">ลำดับ</th>
+                                <th scope="col" class="sort text-center" style="width: 60%">ชื่อยา</th>
+                                <th scope="col" class="sort text-center" style="width: 20%">จำนวน</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+            </div>
+            <!-- </form> -->
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button> -->
             </div>
         </div>
     </div>
@@ -206,15 +219,17 @@
 <script src="../assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <!-- Datatable -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js|https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js" defer></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
 
+
 <script type="text/javascript">
     $(document).ready(function() {
+
         var sexindex = "{{$data['patient_list'][0]->sex}}";
         $('#inputSex').val(sexindex).change();
 
@@ -245,7 +260,6 @@
             calculateGrandTotal();
         });
 
-
     });
 
     $('#employee_image').change(function() {
@@ -257,9 +271,9 @@
     });
 
     $(document.body).on('click', '.searchDrug', function() {
-            var rowId = $(this).closest('tr').attr('id');
-            $("#rowId").val(rowId);
-        });
+        var rowId = $(this).closest('tr').attr('id');
+        $("#rowId").val(rowId);
+    });
 
     $('.btnSelectDrug').on('click', function() {
         var $rowId = $('#rowId').val();
@@ -287,13 +301,72 @@
             }
             count++;
         });
+        //Clear data
+
         //ส่งค่ามาแปะที่ฟอร์ม
         $("#" + $rowId).find('input[name="drug_id[]"]').val(drugId);
         $("#" + $rowId).find('input[name="drug_name[]"]').val(drugName);
         $("#" + $rowId).find('input[name="cost_price[]"]').val(costPrice);
         $("#" + $rowId).find('input[name="sell_price[]"]').val(sellPrice);
-        
+
         $('#drugSearchModal').modal('hide');
+    });
+
+    $(document).ready(function() {
+        $('#drugTab').DataTable({
+            columnDefs: [{
+                    "targets": 0, // your case first column
+                    "className": "text-center",
+                },
+                {
+                    "targets": 1,
+                    "className": "text-center",
+                },
+                {
+                    "targets": 2,
+                    "className": "text-center",
+                }
+            ]
+        });
+
+        $("#showDetail").on("show.bs.modal", function(e) {
+            $("#drugTab").DataTable().clear().draw();
+            var id = $(e.relatedTarget).data('id');
+            var orderId = $(e.relatedTarget).data('order');
+            var date_hitsory = $(e.relatedTarget).data('date');
+            var next_date = $(e.relatedTarget).data('nextdate');
+            var patient_symptoms = $(e.relatedTarget).data('symptoms');
+            $('#idInModal').val(id);
+            $('#orderIdInModal').val(orderId);
+            $('#dateHitsoryInModal').val(date_hitsory);
+            $('#nextDateInModal').val(next_date);
+            $('#patientSymptomsInModal').val(patient_symptoms);
+
+            var _token = $('input[name="_token"').val();
+            $.ajax({
+                url: "{{route('fetchBoneDrugDetail')}}",
+                method: "POST",
+                data: {
+                    orderId: orderId,
+                    _token: _token
+                },
+                dataType: "json",
+                success: function(result) {
+                    console.log(result);
+                    $.each(result.data.orders_detail, function(i, item) {
+                        $("#drugTab").DataTable().row.add([
+                            i + 1,
+                            item.dname.drug_name,
+                            item.amount
+                        ]).draw();
+                    });
+                }
+            })
+            $(".dataTables_filter").hide();
+            $(".dataTables_length").hide();
+            $(".dataTables_info").hide();
+            $(".dataTables_paginate").hide();
+        });
     });
 </script>
 @endsection

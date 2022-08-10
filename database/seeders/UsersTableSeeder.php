@@ -68,5 +68,25 @@ class UsersTableSeeder extends Seeder
                 'sex_name' => 'หญิง'
             ],
         );
+        DB::table('typeusers')->insert(
+            [
+                'typeusersname' => 'ผู้ดูแลระบบ'
+            ],
+        );
+        DB::table('typeusers')->insert(
+            [
+                'typeusersname' => 'พนักงาน'
+            ],
+        );
+        DB::table('typeusers')->insert(
+            [
+                'typeusersname' => 'หมอกระดูก'
+            ],
+        );
+        DB::table('typeusers')->insert(
+            [
+                'typeusersname' => 'หมอเด็ก'
+            ],
+        );
     }
 }

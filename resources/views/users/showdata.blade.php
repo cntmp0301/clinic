@@ -1,19 +1,81 @@
 @extends('layouts.app')
 
 @section('content')
+<html>
+<style>
+  .dataTables_filter {
+    float: right;
+    margin-right: 25px;
+  }
 
-<div class="container-fluid mt--6">
+  .dataTables_info {
+    float: left;
+    margin-left: 25px;
+  }
+
+  .dataTables_paginate {
+    float: right;
+    margin-right: 20px;
+  }
+</style>
+
+</html>
+
+<div class="container-fluid mt-5">
   <div class="row">
     <div class="col">
       <div class="card">
         <!-- Card header -->
-
+        <div class="card-header border-0">
+          <div class="text-left">
+            <h3 class="mb-0">ตารางแสดงข้อมูลผู้ใช้ในระบบ&nbsp;</h3>
+          </div>
+          <div class="text-right">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addadminprofile">+ เพิ่ม</button>
+          </div>
+        </div>
         <!-- Light table -->
         <div class="table-responsive">
+          <table class="table align-items-center table-flush dtab">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="sort text-center" data-sort="name">ลำดับ</th>
+                <th scope="col" class="sort text-center" data-sort="name">ชื่อ-นามสกุล</th>
+                <th scope="col" class="sort text-center" data-sort="email">Email</th>
+                <th scope="col" class="sort text-center" data-sort="type">สิทธิ์</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              @foreach($data['userlist'] as $row)
+              <tr>
+                <td class="text-center">
+                  {{$loop->index+1}}
+                </td>
+                <td class="text-center">
+                  {{$row -> name}}
+                </td>
+                <td class="text-center">
+                  {{$row -> email}}
+                </td>
+                <td class="text-center">
+                  {{$row -> typeusers -> typeusersname}}
+                </td>
+                <td class="text-right">
+                  <a href="{{ url('/general/customer/editCustomer/'.$row->customer_number) }}" title="รายละเอียด" data-toggle="tooltip" class="btn btn-success"><i class="fas fa-solid fa-eye"></i></a>
+                  <a href="{{ url('/general/customer/editCustomer/'.$row->customer_number) }}" title="แก้ไขข้อมูล" data-toggle="tooltip" class="btn btn-info"><i class="fas fa-edit fa-sm"></i></a>
+                  <a href="{{ url('/general/customer/softDeleteCustomer/'.$row->customer_number) }}" title="ลบข้อมูล" data-toggle="tooltip" class="btn btn-danger delbtn"><i class="fa fa-trash fa-sm" aria-hidden="true"></i></a>
+                </td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+        <!-- <div class="table-responsive">
           <div class="card-header border-0">
             <h3 class="mb-0">Light table</h3>
           </div>
-          <table class="table align-items-center table-flush">
+          <table class="table align-items-center table-flush dtab">
             <div class="card-header border-0">
               <div class="text-left">
                 <h3 class="mb-0">ตารางแสดงข้อมูลผู้ใช้ในระบบ&nbsp;</h3>
@@ -44,21 +106,21 @@
                   {{$row -> email}}
                 </td>
                 <td class="text-center">
-                  {{$row -> type}}
+                  {{$row -> typeusers -> typeusersname}}
                 </td>
                 <td class="text-right">
-                  <!--<a data-toggle="modal" data-target="#custDetailModal" class="btn btn-info">รายละเอียด</a>-->
-                  <a href="{{ url('/general/customer/editCustomer/'.$row->customer_number) }}" title="รายละเอียด" data-toggle="tooltip" class="btn btn-primary"><i class="fas fa-solid fa-eye"></i></a>
-                  <a href="{{ url('/general/customer/editCustomer/'.$row->customer_number) }}" title="แก้ไขข้อมูล" data-toggle="tooltip" class="btn btn-primary"><i class="fas fa-edit fa-sm"></i></a>
+                  <a data-toggle="modal" data-target="#custDetailModal" class="btn btn-info">รายละเอียด</a>
+                  <a href="{{ url('/general/customer/editCustomer/'.$row->customer_number) }}" title="รายละเอียด" data-toggle="tooltip" class="btn btn-success"><i class="fas fa-solid fa-eye"></i></a>
+                  <a href="{{ url('/general/customer/editCustomer/'.$row->customer_number) }}" title="แก้ไขข้อมูล" data-toggle="tooltip" class="btn btn-info"><i class="fas fa-edit fa-sm"></i></a>
                   <a href="{{ url('/general/customer/softDeleteCustomer/'.$row->customer_number) }}" title="ลบข้อมูล" data-toggle="tooltip" class="btn btn-danger delbtn"><i class="fa fa-trash fa-sm" aria-hidden="true"></i></a>
                 </td>
               </tr>
               @endforeach
             </tbody>
           </table>
-        </div>
+        </div> -->
         <!-- Card footer -->
-        <div class="card-footer py-4">
+        <!-- <div class="card-footer py-4">
           <nav aria-label="...">
             <ul class="pagination justify-content-end mb-0">
               <li class="page-item disabled">
@@ -82,7 +144,7 @@
               </li>
             </ul>
           </nav>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -128,8 +190,10 @@
           <div class="form-group">
             <label>สิทธิ</label>
             <select name="type" class="form-control">
-              <option value="1">หมอ</option>
+              <option value="1">ผู้ดูแลระบบ</option>
               <option value="2">พนักงาน</option>
+              <option value="3">หมอกระดูก</option>
+              <option value="4">หมอเด็ก</option>
             </select>
           </div>
         </div>
@@ -144,4 +208,46 @@
     </div>
   </div>
 </div>
+
+<!-- Argon Scripts -->
+<!-- Core -->
+<script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
+<!--<script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>-->
+<script src="../assets/vendor/js-cookie/js.cookie.js"></script>
+<script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+<script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+<!-- Argon JS -->
+<script src="../assets/js/argon.js?v=1.2.0"></script>
+
+<!-- Datatable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js|https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js" defer></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js" defer></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".dtab").DataTable({
+      columnDefs: [{
+        defaultContent: "-",
+        targets: "_all",
+      }, ],
+      language: {
+        paginate: {
+          previous: "<",
+          next: ">",
+        },
+      },
+      lengthMenu: [10, 20, 50, 100],
+      oLanguage: {
+        sSearch: "ค้นหา : ",
+        sLengthMenu: " แสดง _MENU_ รายการ/หน้า",
+        sInfo: "รายการที่ _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+      },
+    });
+    $(".dataTables_length").hide();
+    //$(".dataTables_info").hide();
+  });
+</script>
 @endsection

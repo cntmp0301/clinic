@@ -14,10 +14,8 @@ class CreateStocksLogTable extends Migration
     public function up()
     {
         Schema::create('stocks_logs', function (Blueprint $table) {
-            $table->id();
-            $table->string('drug_id');
-            $table->string('add');
-            $table->string('remove');
+            $table->string('stock_id')->primary(); 
+            $table->string('status');
             $table->timestamps();
         });
     }

@@ -11,12 +11,13 @@ class patient_log extends Model
     protected $fillable = [
         'id',
         'patient_id',
-        'status'
+        'status',
+        'created_at'
     ];
 
     public function patient_list()
     {   
-        return $this->hasOne(patient_list::class, 'patient_id', 'id');
+        return $this->hasOne(patient_list::class, 'patient_id', 'patient_id');
     }
 }
 

@@ -18,21 +18,24 @@
                     @csrf
                     <br>
                     <div class="card">
-                        <div class="card-body img-center">
+                        <!-- <div class="card-body img-center">
                             <img id="preview-image-before-upload" src="" alt="preview image" width="150px" height="150px">
+                        </div> -->
+                        <div class="card-body img-center">
+                            <img id="preview-image-before-upload" src="{{asset($data['patient_list'][0] -> users_image)}}" alt="preview image" width="200px" height="200px">
                         </div>
                         <div class="form-group col-md-4 center">
-                            <input type="file" class="form-control" name="employee_image" id="employee_image" value="">
+                            <input type="file" class="form-control" name="users_image" id="users_image" value="{{asset($data['patient_list'][0] -> users_image)}}">
                         </div>
                     </div>
                     <br>
                     <div class="form-row">
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <label for="patient_id">รหัสคนไข้</label>
                             <input type="text" class="form-control" id="patient_id" name="patient_id" value="{{$data['patient_list'][0] -> patient_id}}" readonly>
                         </div>
 
-                        <div class="form-group col-md-7">
+                        <div class="form-group col-md-4">
                             <label for="patient_name">ชื่อ-นามสกุล</label>
                             <input type="text" class="form-control" id="patient_name" name="patient_name" value="{{$data['patient_list'][0] -> name}}">
                         </div>
@@ -41,7 +44,7 @@
                             <label for="patient_nickname">ชื่อเล่น</label>
                             <input type="text" class="form-control" id="patient_nickname" name="patient_nickname" value="{{$data['patient_list'][0] -> nickname}}">
                         </div>
-                        
+
                         <div class="form-group col-md-1">
                             <label for="patient_sex">เพศ</label>
                             <select id="patient_sex" name="patient_sex" class="form-control">
@@ -50,10 +53,13 @@
                                 @endforeach
                             </select>
                         </div>
-
+                        <div class="form-group col-md-2">
+                            <label for="patient_birthdate">วัน/เดือน/ปีเกิด</label>
+                            <input type="date" class="form-control" id="patient_birthdate" name="patient_birthdate" value="{{$data['patient_list'][0] -> birthdate}}">
+                        </div>
                         <div class="form-group col-md-1">
                             <label for="patient_age">อายุ</label>
-                            <input type="text" class="form-control" id="patient_age" name="patient_age" value="{{$data['patient_list'][0] -> age}}">
+                            <input type="text" class="form-control" id="patient_age" name="patient_age" value="{{\Carbon\Carbon::parse($data['patient_list'][0] -> birthdate)->diff(\Carbon\Carbon::now())->format('%y')}}" readonly>
                         </div>
                     </div>
 
@@ -78,7 +84,7 @@
                         <div class="form-group col-md-12">
                             <label for="patient_drug_allergy">ประวัติการแพ้ยา</label>
                             <!-- <input type="text" class="form-control" name="patient_drug_allergy" value=""> -->
-                            <textarea class="form-control" id="patient_drug_allergy" name="patient_drug_allergy" rows="3" >{{$data['patient_list'][0] -> drug_allergy}}</textarea>
+                            <textarea class="form-control" id="patient_drug_allergy" name="patient_drug_allergy" rows="3">{{$data['patient_list'][0] -> drug_allergy}}</textarea>
                         </div>
                     </div>
 
@@ -94,6 +100,7 @@
 </div>
 <!-- Argon Scripts -->
 <!-- Core -->
+
 <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
 <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
@@ -101,21 +108,39 @@
 <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
 <!-- Argon JS -->
 <script src="../assets/js/argon.js?v=1.2.0"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
 <script type="text/javascript">
-    $(document).ready(function(e) {
-        var sexindex = "{{$data['patient_list'][0]->sex}}";
-        
-        $('#inputSex').val(sexindex).change();
-        
+    $(document).ready(function() {
+
     });
 
+    $('#patient_birthdate').on("change", function(event) {
+        ageCalculator();
+    });
 
-    $('#employee_image').change(function() {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            $('#preview-image-before-upload').attr('src', e.target.result);
+    function ageCalculator() {
+        var userinput = document.getElementById("patient_birthdate").value;
+        var dob = new Date(userinput);
+        if (userinput == null || userinput == '') {
+            document.getElementById("message").innerHTML = "*โปรดเลือกวันเกิด !";
+            return false;
+        } else {
+
+            //calculate month difference from current date in time
+            var month_diff = Date.now() - dob.getTime();
+            //convert the calculated difference in date format
+            var age_dt = new Date(month_diff);
+            //extract year from date    
+            var year = age_dt.getUTCFullYear();
+            //now calculate the age of the user
+            var age = Math.abs(year - 1970);
+            //display the calculated age
+            // return document.getElementById("totalage").innerHTML =
+            //     "Age is: " + age + " years. ";
+            $("#patient_age").val(age);
         }
-        reader.readAsDataURL(this.files[0]);
-    });
+    }
 </script>
 @endsection

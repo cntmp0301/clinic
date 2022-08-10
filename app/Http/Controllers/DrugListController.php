@@ -9,7 +9,7 @@ class DrugListController extends Controller
 {
     public function drugslist()
     {
-        $data['drugslist'] = drugs_list::get();
+        $data['drugslist'] = drugs_list::orderBy('created_at')->get();
         return view('drugslist.showdata')->with('data', $data);
     }
     public function drugslow()
@@ -20,6 +20,7 @@ class DrugListController extends Controller
     public function addDrugs(Request $request)
     {
         $drugs_list = new drugs_list();
+        $drugs_list->drug_id = $request->drug_id;
         $drugs_list->drug_name = $request->drug_name;
         $drugs_list->cost_price = $request->cost_price;
         $drugs_list->sell_price = $request->sell_price;

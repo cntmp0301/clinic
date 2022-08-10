@@ -441,7 +441,6 @@ progress
 [type='search']
 {
     outline-offset: -2px;
-
     -webkit-appearance: none;
 }
 
@@ -2314,7 +2313,7 @@ pre code
 .table-responsive
 {
     display: block;
-    overflow-x: auto;
+    /* overflow-x: auto; */
 
     width: 100%;
 
@@ -3054,8 +3053,8 @@ fieldset:disabled a.btn
 .btn-success
 {
     color: #fff;
-    border-color: #2dce89;
-    background-color: #2dce89;
+    border-color: #2c9e6d; /*#2dce89 ค่าสีเก่า */
+    background-color: #2c9e6d;
     box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
 }
 .btn-success:hover
@@ -3094,8 +3093,8 @@ fieldset:disabled a.btn
 .btn-info
 {
     color: #fff;
-    border-color: #11cdef;
-    background-color: #11cdef;
+    border-color: #1aa6be;  /* ค่าสีเก่า 11cdef*/ 
+    background-color: #1aa6be;
     box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
 }
 .btn-info:hover
@@ -14929,7 +14928,8 @@ button.bg-orange:focus
 
 .bg-yellow
 {
-    background-color: #ffd600 !important;
+    background-color: #FFA500 !important;
+    /*background-color: #ffd600 !important; ค่าสีเก่า*/
 }
 
 a.bg-yellow:hover,
@@ -15062,6 +15062,11 @@ button.bg-lighter:focus
 .bg-gradient-info
 {
     background: linear-gradient(87deg, #11cdef 0, #1171ef 100%) !important;
+}
+
+.bg-gradient-pinkblue
+{
+    background: linear-gradient(87deg, #E2CDF5 0, #5e72e4 100%) !important;
 }
 
 .bg-gradient-warning
@@ -19223,7 +19228,7 @@ textarea[resize='horizontal']
     content: '\f105';
     transition: all .15s ease; 
 
-    color: #8898aa;
+    color: #FFFFFF;
 
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;

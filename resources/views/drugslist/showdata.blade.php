@@ -1,6 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
+<html>
+<style>
+    .dataTables_filter {
+        float: right;
+        margin-right: 25px;
+    }
+
+    .dataTables_info {
+        float: left;
+        margin-left: 25px;
+    }
+
+    .dataTables_paginate {
+        float: right;
+        margin-right: 20px;
+    }
+</style>
+
+</html>
 
 <div class="container-fluid mt-5">
     <div class="row">
@@ -13,15 +32,15 @@
                     <!-- <div class="card-header border-0">
                         <h3 class="mb-0">Light table</h3>
                     </div> -->
-                    <table class="table align-items-center table-flush">
+                    <table class="table align-items-center table-flush dtab">
                         <div class="card-header border-0">
                             <div class="text-left">
                                 <h3 class="mb-0">ตารางแสดงรายการยา&nbsp;</h3>
                             </div>
                             <?php if (auth()->user()->type == 1) { ?>
-                            <div class="text-right">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDrugs">+ เพิ่มรายการยา</button>
-                            </div>
+                                <div class="text-right">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDrugs">+ เพิ่มรายการยา</button>
+                                </div>
                             <?php } ?>
                         </div>
 
@@ -69,7 +88,7 @@
                     </table>
                 </div>
                 <!-- Card footer -->
-                <div class="card-footer py-4">
+                <!-- <div class="card-footer py-4">
                     <nav aria-label="...">
                         <ul class="pagination justify-content-end mb-0">
                             <li class="page-item disabled">
@@ -93,7 +112,7 @@
                             </li>
                         </ul>
                     </nav>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -111,6 +130,10 @@
             <form action="{{route('addDrugs')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
+                    <div class="form-group">
+                        <label id="genDrugId" for="drug_id" class="text-primary required"><i class="fa fa-plus">&nbsp;สร้างรหัสยา</i></label>
+                        <input type="text" class="form-control" id="drug_id" name="drug_id" readonly>
+                    </div>
                     <div class="form-group">
                         <label> ชื่อยา </label>
                         <input type="text" name="drug_name" class="form-control" placeholder="">
@@ -143,5 +166,65 @@
         </div>
     </div>
 </div>
+
+<!-- Argon Scripts -->
+<!-- Core -->
+<script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
+
+<!--<script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>-->
+<script src="../assets/vendor/js-cookie/js.cookie.js"></script>
+<script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+<script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+<!-- Argon JS -->
+<script src="../assets/js/argon.js?v=1.2.0"></script>
+
+<!-- Datatable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js|https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js" defer></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js" defer></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".dtab").DataTable({
+            columnDefs: [{
+                defaultContent: "-",
+                targets: "_all",
+            }, ],
+            language: {
+                paginate: {
+                    previous: "<",
+                    next: ">",
+                },
+            },
+            lengthMenu: [10, 20, 50, 100],
+            oLanguage: {
+                sSearch: "ค้นหา : ",
+                sLengthMenu: " แสดง _MENU_ รายการ/หน้า",
+                sInfo: "รายการที่ _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+            },
+        });
+        $(".dataTables_length").hide();
+        //$(".dataTables_info").hide();
+    });
+
+    $('#genDrugId').on('click', function() {
+        var date = new Date();
+        var components = [
+            "DG-",
+            date.getYear(),
+            date.getMonth(),
+            date.getDate(),
+            date.getHours(),
+            date.getMinutes(),
+            date.getSeconds()
+        ];
+
+        var id = components.join("");
+        $("#drug_id").val(id);
+    });
+</script>
 
 @endsection

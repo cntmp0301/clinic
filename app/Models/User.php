@@ -43,5 +43,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function typeusers()
+    {
+        return $this->hasOne(typeusers::class, 'id', 'type');
+    }
+
 
 }

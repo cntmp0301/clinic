@@ -15,12 +15,12 @@ class CreatePatientHistoryTable extends Migration
     {
         Schema::create('patient_histories', function (Blueprint $table) {
             $table->id();
-            $table->integer('patient_id');
-            $table->integer('order_id');
+            $table->string('patient_id');
+            $table->string('order_id');
             $table->string('patient_symptoms', 100);
             // $table->char('sum', 50);
-            $table->char('date_history', 50);
-            $table->char('next_check', 50);
+            $table->date('date_history', 50);
+            $table->date('next_check', 50);
             $table->timestamps();
         });
     }
